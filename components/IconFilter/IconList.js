@@ -1,67 +1,67 @@
 export const icons = [
     {
         category: 'Plants',
-        image: 'plant',
+        image: require('../../assets/icons/filterIcons/plant.png'),
         selected: false
     },
     {
         category: 'Birds',
-        image: 'bird',
+        image: require('../../assets/icons/filterIcons/bird.png'),
         selected: false
     },
     {
         category: 'Insects',
-        image: 'bee',
+        image: require('../../assets/icons/filterIcons/bee.png'),
         selected: false
     },
     {
         category: 'Amphibians',
-        image: 'frog',
+        image: require('../../assets/icons/filterIcons/frog.png'),
         selected: false
     },
     {
         category: 'Reptiles',
-        image: 'snake',
+        image: require('../../assets/icons/filterIcons/snake.png'),
         selected: false
     },
     {
         category: 'Fungi',
-        image: 'mushrooms',
+        image: require('../../assets/icons/filterIcons/mushrooms.png'),
         selected: false
     },
     {
         category: 'Fish',
-        image: 'fish',
+        image: require('../../assets/icons/filterIcons/fish.png'),
         selected: false
     },
     {
         category: 'Arachnids',
-        image: 'spider',
+        image: require('../../assets/icons/filterIcons/spider.png'),
         selected: false
     },
     {
         category: 'Mollusks',
-        image: 'snail',
+        image: require('../../assets/icons/filterIcons/snail.png'),
         selected: false
     },
     {
         category: 'Mammals',
-        image: 'fox',
+        image: require('../../assets/icons/filterIcons/fox.png'),
         selected: false
     },
     {
         category: 'Kelp',
-        image: 'seaweed',
+        image: require('../../assets/icons/filterIcons/seaweed.png'),
         selected: false
     },
     {
         category: 'Protozoans',
-        image: 'microorganism',
+        image: require('../../assets/icons/filterIcons/microorganism.png'),
         selected: false
     },
     {
         category: 'Others',
-        image: 'paw',
+        image: require('../../assets/icons/filterIcons/others.png'),
         selected: false
     },
 ]

@@ -1,13 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 
-import AccountScreen from '../screens/AccountScreen';
-import AddSightingScreen from '../screens/AddSightingScreen';
-import ExploreScreen from '../screens/Explore/ExploreScreen';
-import HomeScreen from '../screens/Home/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import CampaignScreen from '../screens/Explore/Campaign/CampaignScreen';
-import ObservationScreen from '../screens/Explore/Observation/ObservationScreen';
+import Account from './screens/Account';
+import AddSighting from './screens/AddSighting/AddSighting';
+import ListExploreNavigation from './screens/Explore/ListExplore/ListExploreNavigation';
+import MapExploreNavigation from './screens/Explore/MapExplore/MapExploreNavigation';
+import SigthingAdded from './screens/AddSighting/SightingAdded';
+import HomeNavigation from './screens/Home/HomeNavigation';
 
 const Tab = createBottomTabNavigator();
 const CustomTabBarButton = ({ children, onPress }) => (
@@ -33,7 +32,14 @@ const CustomTabBarButton = ({ children, onPress }) => (
 export default function Tabs() {
     return (
         <Tab.Navigator
-            screenOptions={{
+            screenOptions={({ route }) => ({
+                tabBarButton: [
+                    "SigthingAdded",
+                ].includes(route.name)
+                    ? () => {
+                        return null;
+                    }
+                    : undefined,
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     position: 'absolute',
@@ -46,15 +52,15 @@ export default function Tabs() {
                     height: 60,
                     ...styles.shadow
                 }
-            }}
+            })}
         >
-            <Tab.Screen name='Home' component={HomeScreen} options={{
+            <Tab.Screen name='Home' component={HomeNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
-                        style={{ alignItems: 'center', justifyContent: 'center'}}
+                        style={{ alignItems: 'center', justifyContent: 'center' }}
                     >
                         <Image
-                            source={require('../assets/icons/menuIcons/home.png')}
+                            source={require('./assets/icons/menuIcons/home.png')}
                             resizeMode='contain'
                             style={{
                                 width: 25,
@@ -66,13 +72,13 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Explore' component={ExploreScreen} options={{
+            <Tab.Screen name='Explore' component={ListExploreNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
-                        style={{ alignItems: 'center', justifyContent: 'center'}}
+                        style={{ alignItems: 'center', justifyContent: 'center' }}
                     >
                         <Image
-                            source={require('../assets/icons/menuIcons/map-point-pointer.png')}
+                            source={require('./assets/icons/menuIcons/list.png')}
                             resizeMode='contain'
                             style={{
                                 width: 25,
@@ -84,11 +90,12 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Add Sighting' component={AddSightingScreen} options={{
+            <Tab.Screen name='Add Sighting' component={AddSighting} options={{
                 tabBarIcon: ({ focused }) => (
                     <Image
-                        source={require('../assets/icons/menuIcons/binoculars.png')}
-                        resizeMethod='contain'
+                        source={focused ?
+                            require('./assets/icons/menuIcons/plus.png') :
+                            require('./assets/icons/menuIcons/binoculars.png')}
                         style={{
                             width: 30,
                             height: 30,
@@ -101,13 +108,13 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Settings' component={SettingsScreen} options={{
+            <Tab.Screen name='Settings' component={MapExploreNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
-                        style={{ alignItems: 'center', justifyContent: 'center'}}
+                        style={{ alignItems: 'center', justifyContent: 'center' }}
                     >
                         <Image
-                            source={require('../assets/icons/menuIcons/setting.png')}
+                            source={require('./assets/icons/menuIcons/map-point-pointer.png')}
                             resizeMode='contain'
                             style={{
                                 width: 25,
@@ -119,13 +126,13 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Account' component={AccountScreen} options={{
+            <Tab.Screen name='Account' component={Account} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
-                        style={{ alignItems: 'center', justifyContent: 'center'}}
+                        style={{ alignItems: 'center', justifyContent: 'center' }}
                     >
                         <Image
-                            source={require('../assets/icons/menuIcons/user.png')}
+                            source={require('./assets/icons/menuIcons/user.png')}
                             resizeMode='contain'
                             style={{
                                 width: 25,
@@ -136,6 +143,8 @@ export default function Tabs() {
                     </View>
                 )
             }} />
+
+            <Tab.Screen name='SigthingAdded' component={SigthingAdded} />
         </Tab.Navigator>
     )
 }

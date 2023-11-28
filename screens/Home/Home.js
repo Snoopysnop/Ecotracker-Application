@@ -8,20 +8,25 @@ import NavigationTitle from '../../components/NavigationTitle';
 import NoResult from '../../components/NoResult';
 import HomeTabView from './HomeTabView';
 
-export default function HomeScreen({ navigation, route }) {
+import { exampleCampaignsData, exampleObservationsData } from '../TemporaryData';
+
+export default function Home({ navigation, route }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
     const [myCampaigns, setMyCampaigns] = React.useState([]);
     const [myCampaignsFiltered, setMyCampaignsFiltered] = React.useState([]);
     const [myObservations, setMyObservations] = React.useState([]);
     const [myObservationsFiltered, setMyObservationsFiltered] = React.useState([]);
-    const [firstTab, setFirstTab,] = React.useState(true);
+    const [firstTab, setFirstTab] = React.useState(true);
 
     const fetchMyCampaigns = () => {
-        fetch('https://path-to-server/campaigns')
-            .then((response) => {
-                setMyCampaigns(response.json());
-                setMyCampaignsFiltered(response.json());
+        fetch('http://localhost:8080/campaigns'
+        )
+            .then(response => response.json())
+            .then(json => {
+                let response1 = json
+                setMyCampaigns(response1);
+                setMyCampaignsFiltered(response1);
             })
             .catch((error) => {
                 console.error(error);
@@ -31,10 +36,11 @@ export default function HomeScreen({ navigation, route }) {
     }
 
     const fetchMyObservations = () => {
-        fetch('https://path-to-server/observations')
+        fetch("http://localhost:8080/observations")
             .then((response) => {
-                setMyObservations(response.json());
-                setMyObservationsFiltered(response.json());
+                let response2 = response.json()
+                setMyObservations(response2);
+                setMyObservationsFiltered(response2);
             })
             .catch((error) => {
                 console.error(error);
@@ -44,26 +50,33 @@ export default function HomeScreen({ navigation, route }) {
     }
 
     React.useEffect(() => {
-        navigation.setOptions({
-            title: <NavigationTitle title={"Home"} />,
+        route.params?.navigationParent.setOptions({
+            headerShown: false,
         });
         
+        navigation.setOptions({
+            headerTitle: () => <NavigationTitle title={"Home"} />,
+        });
+
         setIsLoading(true);
         // fetchMyCampaigns();
         // fetchMyObservations();
 
         // TODO remove when fetching works
-        setMyCampaigns([]);
-        setMyCampaignsFiltered([]);
+        setMyCampaigns(exampleCampaignsData);
+        setMyCampaignsFiltered(exampleCampaignsData);
+        setMyObservations(exampleObservationsData);
+        setMyObservationsFiltered(exampleObservationsData);
         setIsLoading(false);
     }, [])
 
     const homeView = (
         <View style={{
             gap: 10,
+            height: '100%',
             ...styles.view
         }}>
-            <SearchBar data={firstTab ? myCampaigns : myObservations} setData={firstTab ? setMyCampaignsFiltered : setMyObservationsFiltered} />
+            <SearchBar data={firstTab ? myObservations : myCampaigns} setData={firstTab ? setMyObservationsFiltered : setMyCampaignsFiltered} />
             <HomeTabView setFirstTab={setFirstTab} campaigns={myCampaignsFiltered} observations={myObservationsFiltered} navigation={navigation} route={route} />
         </View>
     )
@@ -90,10 +103,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: '100%',
         margin: 20,
-        marginBottom: 115,
+        marginBottom: 100,
     },
     view: {
         margin: 20,
-        marginBottom: 115,
+        marginBottom: 100,
     }
 })

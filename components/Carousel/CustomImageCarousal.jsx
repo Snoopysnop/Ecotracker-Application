@@ -13,7 +13,7 @@ const CustomImageCarousal = ({data, autoPlay, pagination}) => {
   const [isAutoPlay, setIsAutoPlay] = useState(autoPlay);
   const [newData, setNewData] = useState(data);
   const {width} = useWindowDimensions();
-  const SIZE = width * 0.5;
+  const SIZE = width * 0.45;
   const SPACER = (width - SIZE) / 3;
   const x = useSharedValue(0);
   const offSet = useSharedValue(0);

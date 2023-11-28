@@ -31,7 +31,7 @@ const CustomImage = ({item, x, index, size, spacer}) => {
     <View style={{width: size}} key={index}>
       <Animated.View style={[styles.imageContainer]}>
         <Image
-          source={require("../../assets/" + item)}
+          // source={require("../../assets/" + item)}
           style={[styles.image, {aspectRatio: aspectRatio}]}
         />
       </Animated.View>

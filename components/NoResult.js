@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     view: {
         width: '100%',
         height: '100%',
+        justifyContent: 'center', //Centered vertically
     },
     image: {
         height: 70,
@@ -25,11 +26,11 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
-        fontWeight: 600,
+        fontWeight: '600',
     },
     subtitle: {
         textAlign: 'center',
-        fontWeight: 200,
+        fontWeight: '200',
         color: '#aaa',
         fontStyle: 'italic',
     },

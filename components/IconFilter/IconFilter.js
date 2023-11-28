@@ -37,7 +37,7 @@ export default function IconFilter({ data, setData }) {
                     >
                         <Image
                             style={styles.icon}
-                            source={require('../../assets/icons/filterIcons/' + icon.image + '.png')}
+                            source={icon.image}
                         />
                     </TouchableOpacity>
                 ))}

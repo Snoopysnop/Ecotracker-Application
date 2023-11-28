@@ -3,13 +3,13 @@ import { StyleSheet, Button, Text, View, TouchableOpacity, Image, ScrollView } f
 
 export default function ObservationImageList({ navigation, observations, route }) {
     return (
-        <View style={{ flex: 1, backgroundColor: '#f6f6f6', width: '100%' }}>
+        <View style={{ marginTop:10, flex: 1, backgroundColor: '#f6f6f6', width: '100%' }}>
             {observations.map((observation, index) => {
                 return (
                     <TouchableOpacity
                         key={index}
                         style={{ flexDirection: 'row', backgroundColor: '#fff', marginBottom: 2, height: 80 }}
-                        onPress={() => navigation.navigate('ObservationScreen', {
+                        onPress={() => navigation.navigate('Observation', {
                             observationData: observation,
                             navigation: navigation,
                             route: route,
@@ -19,7 +19,7 @@ export default function ObservationImageList({ navigation, observations, route }
 
                         <View style={[styles.centerElement, { width: 75 }]}>
                             <Image
-                                source={require("../assets/" + observation.imageList[0])}
+                                // source={require("../assets/" + observation.imageList[0])}
                                 style={styles.image}
                             />
                         </View>

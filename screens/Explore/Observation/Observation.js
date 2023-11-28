@@ -5,15 +5,9 @@ import NavigationTitle from '../../../components/NavigationTitle';
 import CustomImageCarousal from '../../../components/Carousel/CustomImageCarousal';
 import CustomTabView from './ObservationTabView';
 
-const exempleComments = {
-    "comment": [
-        { "author": "TomTom", "date": "2023-11-04T12:04:54.977603876", "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-        { "author": "Anna", "date": "2023-10-05T12:04:54.977603876", "content": "Pellentesque faucibus id diam non lacinia." },
-        { "author": "Reiner", "date": "2023-28-08T12:04:54.977603876", "content": "Aliquam vitae fermentum ex, in placerat lectus." }
-    ]
-}
+import { exampleComments } from '../../TemporaryData';
 
-export default function ObservationScreen({ observationData, navigation, route, ID }) {
+export default function Observation({ observationData, navigation, route, ID }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
     const [comments, setComments] = React.useState('');
@@ -22,7 +16,7 @@ export default function ObservationScreen({ observationData, navigation, route, 
     const observationn = route.params?.observationData;
 
     const fetchComments = () => {
-        fetch('https://path-to-server/comments/#' + ID)
+        fetch('http://localhost:8080/comments/#' + ID)
             .then((response) => setComments(response.json()))
             .catch((error) => {
                 console.error(error);
@@ -37,23 +31,23 @@ export default function ObservationScreen({ observationData, navigation, route, 
         });
 
         navigation.setOptions({
-            title: <NavigationTitle title={observationn.title} author={observationn.author} />,
+            headerTitle: () => <NavigationTitle title={observationn.title} author={observationn.author} />,
         });
 
         setIsLoading(true);
         // fetchComments();
 
-        setComments(exempleComments);
+        setComments(exampleComments);
         setIsLoading(false);
     }, [])
 
     const width = Dimensions.get('window').width;
 
     const observationView = (
-        <ScrollView style={styles.view}>
+        <View style={styles.view}>
             <CustomImageCarousal data={observationn.imageList} autoPlay={false} pagination={true} />
-            <CustomTabView observationData={observationn} comments={comments}/>
-        </ScrollView>
+            <CustomTabView observation={observationn} comments={comments}/>
+        </View>
     )
 
     return (
@@ -77,10 +71,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         height: '100%',
-        marginBottom : 115,
+        marginBottom : 100,
     },
     view: {
         margin: 20,
-        marginBottom : 115,
+        marginBottom : 100,
+        height: '100%',
     }
 })

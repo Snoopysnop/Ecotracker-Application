@@ -9,7 +9,7 @@ export default function CampaignImageList({ navigation, campaigns, route }) {
                     <TouchableOpacity
                         key={index}
                         style={{ flexDirection: 'row', backgroundColor: '#fff', marginBottom: 2, height: 75 }}
-                        onPress={() => navigation.navigate('CampaignScreen', {
+                        onPress={() => navigation.navigate('Campaign', {
                             campaign: campaign,
                             navigation: navigation,
                             route: route,
@@ -19,14 +19,14 @@ export default function CampaignImageList({ navigation, campaigns, route }) {
 
                         <View style={[styles.centerElement, { width: 75 }]}>
                             <Image
-                                source={require("../assets/" + campaign.image)}
+                                // source={require("../assets/" + campaign.image)}
                                 style={styles.image}
                             />
                         </View>
 
                         <View style={{ flexGrow: 1, flexShrink: 1, alignSelf: 'center' }}>
-                            <Text style={{ fontSize: 15 }}>{campaign.name}</Text>
-                            <Text numberOfLines={1} style={{ color: '#8f8f8f' }}>{campaign.creator}</Text>
+                            <Text style={{ fontSize: 15 }}>{campaign.title}</Text>
+                            <Text numberOfLines={1} style={{ color: '#8f8f8f' }}>{campaign.author}</Text>
                         </View>
 
                         <View style={[styles.centerElement, { marginRight: 20 }]}>

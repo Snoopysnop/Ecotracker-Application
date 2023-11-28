@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View, Text, useWindowDimensions, Image, Icon } 
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 import ObservationImageList from '../../components/ObservationImageList';
+import CampaignImageList from '../../components/CampaignImageList';
 import NoResult from '../../components/NoResult';
 
 export default function HomeTabView({ setFirstTab, campaigns, observations, navigation, route }) {
@@ -16,18 +17,18 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
 
   const firstView = () => (
     <ScrollView>
-      {campaigns.length ?
-        <CampaignImageList campaigns={campaigns} navigation={navigation} route={route}></CampaignImageList> :
-        <NoResult message='Campaigns' />
+      {observations.length ?
+        <ObservationImageList observations={observations} navigation={navigation} route={route} /> :
+        <NoResult message={'Observations' + observations.length} />
       }
     </ScrollView>
   )
 
   const secondView = () => (
     <ScrollView>
-      {observations.length ?
-        <ObservationImageList campaigns={observations} navigation={navigation} route={route} /> :
-        <NoResult message='Observations' />
+      {campaigns.length ?
+        <CampaignImageList campaigns={campaigns} navigation={navigation} route={route} /> :
+        <NoResult message='Campaigns' />
       }
     </ScrollView>
   )
@@ -45,10 +46,10 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
       labelStyle={{ color: '#000' }}
       renderLabel={({ route, focused }) => (
         <View>
-          <Text style={{ color: '#2E9A99', textAlign: 'center', fontWeight: 600 }}>
+          <Text style={{ color: '#2E9A99', textAlign: 'center', fontWeight: '600' }}>
             {route.title == 'Observations' ? observations.length : campaigns.length}
           </Text>
-          <Text style={{ color: (focused?'#000':'#ccc'), textAlign: 'center' }}>
+          <Text style={{ color: (focused ? '#000' : '#ccc'), textAlign: 'center' }}>
             {route.title.toUpperCase()}
           </Text>
         </View>
@@ -59,13 +60,33 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
   return (
     <TabView
       navigationState={{ index, routes }}
-      renderScene={renderScene}
+      renderScene={SceneMap({
+        observations: firstView,
+        campaigns: secondView,
+      })}
       onIndexChange={(index) => {
         setIndex(index);
         setFirstTab(index == 0);
       }}
       initialLayout={{ width: layout.width }}
-      renderTabBar={renderTabBar}
+      renderTabBar={(props) => (
+        <TabBar
+          {...props}
+          indicatorStyle={{ backgroundColor: '#2E9A99' }}
+          style={{ backgroundColor: 'white' }}
+          labelStyle={{ color: '#000' }}
+          renderLabel={({ route, focused }) => (
+            <View>
+              <Text style={{ color: '#2E9A99', textAlign: 'center', fontWeight: '600' }}>
+                {route.title == 'Observations' ? observations.length : campaigns.length}
+              </Text>
+              <Text style={{ color: (focused ? '#000' : '#ccc'), textAlign: 'center' }}>
+                {route.title.toUpperCase()}
+              </Text>
+            </View>
+          )}
+        />
+      )}
     />
   );
 }
@@ -73,7 +94,7 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
 const styles = StyleSheet.create({
   title: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
     marginTop: 15,
     color: '#2E9A99',
   },

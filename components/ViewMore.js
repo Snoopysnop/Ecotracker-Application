@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
     seeButton: {
         marginTop: 8,
         color: '#2E9A99',
-        fontWeight: 600,
+        fontWeight: '600',
     },
 })

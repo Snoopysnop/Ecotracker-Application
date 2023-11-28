@@ -6,7 +6,7 @@ export default function SearchBar({ data, setData }) {
 
     const handleSearch = (input) => {
         setSearch(input);
-        setData(data.filter(element => element.name.toUpperCase().includes(input.toUpperCase())));
+        setData(input == '' ? data : data.filter(element => element.title.toUpperCase().includes(input.toUpperCase())));
     }
 
     return (
@@ -22,7 +22,7 @@ export default function SearchBar({ data, setData }) {
             />
             <TouchableOpacity
                 style={styles.closeButtonParent}
-                onPress={() => setSearch('')}
+                onPress={() => handleSearch('')}
             >
                 <Image
                     style={styles.closeButton}
@@ -41,18 +41,20 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: '#fff',
-      },
+    },
     searchBar: {
         width: '100%',
         height: '100%',
-        paddingHorizontal: 20,
+        paddingLeft: 20,
+        paddingRight: 35,
         paddingVertical: 10,
-        outlineStyle: 'none',
     },
     closeButton: {
-        height: 16,
-        width: 16,
+        height: 20,
+        width: 20,
         marginRight: 10,
+        position: 'relative',
+        right: 30,
     },
     closeButtonParent: {
         justifyContent: "center",
