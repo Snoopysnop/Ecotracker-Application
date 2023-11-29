@@ -19,10 +19,12 @@ export default function Campaign({ navigation, route }) {
     const fetchObservations = () => {
         fetch('http://localhost:8080/observations')
             .then(response => {
+                console.log("response");
                 console.log(response);
                 response.json();
             })
             .then(json => {
+                console.log("json");
                 console.log(json);
                 setObservations(json);
             })
@@ -45,13 +47,13 @@ export default function Campaign({ navigation, route }) {
 
         setIsLoading(true);
 
-        fetchObservations();
+        // fetchObservations();
 
         setCampaign(route.params?.campaign);
 
         // TODO remove when fetching works
-        // setObservations(exampleObservationsData);
-        // setIsLoading(false);
+        setObservations(exampleObservationsData);
+        setIsLoading(false);
     }, [])
 
     const startDate = new Date(campaign.startDate).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" });

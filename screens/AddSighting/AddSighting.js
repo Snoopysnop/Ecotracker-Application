@@ -1,14 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import NavigationTitle from '../../components/NavigationTitle';
 import DropdownSelect from '../../components/DropdownSelect';
+// import CustomImagePicker from '../../components/ImagePicker';
 
 import { exampleCampaignsData, exampleObservationsData } from '../TemporaryData';
-import CustomDatePicker from '../../components/DatePicker';
-// import CustomImagePicker from '../../components/ImagePicker';
 
 export default function AddSighting({ navigation, route }) {
     const [address, setAddress] = useState("");
@@ -20,6 +21,16 @@ export default function AddSighting({ navigation, route }) {
     const [title, setTitle] = useState("");
 
     const [campaigns, setCampaigns] = React.useState([]);
+
+    const showMode = (currentMode) => {
+        DateTimePickerAndroid.open({
+            value: date,
+            onChange: (e, date) => setDate(new Date(date)),
+            mode: currentMode,
+            is24Hour: true,
+            display: "spinner",
+        });
+    };
 
     const postObservation = () => {
         // TODO send images, update author, retrieve localisation
@@ -36,7 +47,7 @@ export default function AddSighting({ navigation, route }) {
 
         fetch('http://localhost:8080/create-observation', requestOptions)
             .then(response => {
-                navigation.navigate('SigthingCreation', {
+                navigation.navigate('SigthingAdded', {
                     creation: (response.status % 100 == 2),
                     navigation: navigation,
                 });
@@ -44,7 +55,7 @@ export default function AddSighting({ navigation, route }) {
             })
             .catch((error) => {
                 console.error(error);
-                navigation.navigate('SigthingCreation', {
+                navigation.navigate('SigthingAdded', {
                     creation: false,
                     navigation: navigation,
                 });
@@ -132,10 +143,17 @@ export default function AddSighting({ navigation, route }) {
                 <View style={styles.container}>
                     <View>
                         <Text style={{ marginBottom: 5 }}>Date</Text>
-                        <CustomDatePicker
-                            date={date}
-                            setDate={setDate}
-                        />
+                        {/* <DatePicker date={date} setDate={setDate}/> */}
+                        <TouchableOpacity
+                            onPress={() => showMode('date')}
+                        >
+                            <TextInput
+                                style={styles.input}
+                                value={date.toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" })}
+                                editable={false}
+                                color='#000'
+                            />
+                        </TouchableOpacity>
                     </View>
 
                     <View>
