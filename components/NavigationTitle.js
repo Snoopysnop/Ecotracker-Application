@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 export default function NavigationTitle({ title, author }) {
-    authorr = author;
     return (
         <View style={{
             alignItems: author ? 'baseline' : 'center',

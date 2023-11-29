@@ -13,13 +13,21 @@ import CampaignMap from './CampaignMap';
 export default function Campaign({ navigation, route }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
-    const [observations, setObservations] = React.useState('');
+    const [observations, setObservations] = React.useState([]);
     const [campaign, setCampaign] = React.useState('');
 
     const fetchObservations = () => {
         fetch('http://localhost:8080/observations')
-            .then((response) => setObservations(response.json()))
+            .then(response => {
+                console.log(response);
+                response.json();
+            })
+            .then(json => {
+                console.log(json);
+                setObservations(json);
+            })
             .catch((error) => {
+                console.log("bouloute");
                 console.error(error);
                 setError(true);
             })
@@ -37,11 +45,13 @@ export default function Campaign({ navigation, route }) {
 
         setIsLoading(true);
 
-        // fetchObservations();
+        fetchObservations();
 
         setCampaign(route.params?.campaign);
-        setObservations(exampleObservationsData);
-        setIsLoading(false);
+
+        // TODO remove when fetching works
+        // setObservations(exampleObservationsData);
+        // setIsLoading(false);
     }, [])
 
     const startDate = new Date(campaign.startDate).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" });

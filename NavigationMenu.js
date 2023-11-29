@@ -54,7 +54,7 @@ export default function Tabs() {
                 }
             })}
         >
-            <Tab.Screen name='Home' component={HomeNavigation} options={{
+            <Tab.Screen name='HomeNavigation' component={HomeNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -72,7 +72,7 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Explore' component={ListExploreNavigation} options={{
+            <Tab.Screen name='ListExploreNavigation' component={ListExploreNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -108,7 +108,7 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Settings' component={MapExploreNavigation} options={{
+            <Tab.Screen name='MapExploreNavigation' component={MapExploreNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}

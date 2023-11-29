@@ -3,18 +3,22 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import NavigationTitle from '../../../components/NavigationTitle';
 import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
+import { Marker, Circle } from 'react-native-maps';
 
 import { exampleCampaignsData } from '../../TemporaryData';
 
 export default function MapExplore({ navigationParent, navigation, route, campaigns }) {
     const [location, setLocation] = React.useState('');
-    
+
     campaigns = exampleCampaignsData; // TODO remove
-    
+
     React.useEffect(() => {
+        route.params?.navigationParent.setOptions({
+            headerShown: false,
+        });
+
         navigation.setOptions({
-            headerTitle: () => <NavigationTitle title={"Settings"} />,
+            headerTitle: () => <NavigationTitle title={"Explore All Campaigns"} />,
         });
     })
 
@@ -30,21 +34,34 @@ export default function MapExplore({ navigationParent, navigation, route, campai
                 }}
             >
                 {campaigns.map((campaign, index) => (
-                    <Marker
-                        key={index}
-                        coordinate={{
-                            latitude: campaign.area.coordinates.latitude,
-                            longitude: campaign.area.coordinates.longitude,
-                        }}
-                        title={campaign.title}
-                        description={campaign.author}
-                        onCalloutPress={() => navigation.navigate('Campaign', {
-                            campaign: campaign,
-                            navigation: navigation,
-                            route: route,
-                            ID: campaign.id,
-                        })}
-                    />
+                    <>
+                        <Marker
+                            key={"marker" + index}
+                            coordinate={{
+                                latitude: campaign.area.coordinates.latitude,
+                                longitude: campaign.area.coordinates.longitude,
+                            }}
+                            title={campaign.title}
+                            description={campaign.author}
+                            onCalloutPress={() => navigation.navigate('Campaign', {
+                                campaign: campaign,
+                                navigation: navigation,
+                                route: route,
+                                ID: campaign.id,
+                            })}
+                        />
+                        <Circle
+                            key={"circle" + index}
+                            center={{
+                                latitude: campaign.area.coordinates.latitude,
+                                longitude: campaign.area.coordinates.longitude,
+                            }}
+                            radius={campaign.area.radius}
+                            strokeWidth={2}
+                            strokeColor="#2E9A99"
+                            fillColor="rgba(46, 154, 152, 0.2)"
+                        />
+                    </>
                 ))}
             </MapView>
         </View>
