@@ -4,7 +4,6 @@ import { View, Text, StyleSheet, PermissionsAndroid } from 'react-native';
 import NavigationTitle from '../../../components/NavigationTitle';
 import MapView from 'react-native-maps';
 import { Marker, Circle } from 'react-native-maps';
-// import Geolocation from '@react-native-community/geolocation';
 import * as Location from 'expo-location';
 
 import { exampleCampaignsData } from '../../TemporaryData';
@@ -15,40 +14,6 @@ export default function MapExplore({ navigationParent, navigation, route, campai
 
     campaigns = exampleCampaignsData; // TODO remove
 
-    // const requestCameraPermission = async () => {
-    //     try {
-    //       const granted = await PermissionsAndroid.request(
-    //         PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-    //         {
-    //           title: 'Cool Photo App Camera Permission',
-    //           message:
-    //             'Cool Photo App needs access to your camera ' +
-    //             'so you can take awesome pictures.',
-    //           buttonNeutral: 'Ask Me Later',
-    //           buttonNegative: 'Cancel',
-    //           buttonPositive: 'OK',
-    //         },
-    //       );
-    //       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //         console.log('You can use the camera');
-    //         Geolocation.getCurrentPosition(
-    //             position => {
-    //               const { latitude, longitude } = position.coords;
-    //               setLocation({ latitude, longitude });
-    //             },
-    //             error => {
-    //               console.log(error);
-    //             },
-    //             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    //           );
-    //       } else {
-    //         console.log('Camera permission denied');
-    //       }
-    //     } catch (err) {
-    //       console.warn(err);
-    //     }
-    //   };
-
     React.useEffect(() => {
         route.params?.navigationParent.setOptions({
             headerShown: false,
@@ -57,8 +22,6 @@ export default function MapExplore({ navigationParent, navigation, route, campai
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Explore All Campaigns"} />,
         });
-
-        // requestCameraPermission();
     })
 
     React.useEffect(() => {

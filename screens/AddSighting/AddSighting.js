@@ -2,25 +2,32 @@ import React from 'react';
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import NavigationTitle from '../../components/NavigationTitle';
 import DropdownSelect from '../../components/DropdownSelect';
 // import CustomImagePicker from '../../components/ImagePicker';
+import ModalMap from './ModalMap';
 
 import { exampleCampaignsData, exampleObservationsData } from '../TemporaryData';
 
 export default function AddSighting({ navigation, route }) {
-    const [address, setAddress] = useState("");
-    const [campaign, setCampaign] = useState();
-    const [category, setCategory] = useState("");
-    const [date, setDate] = useState(new Date());
-    const [description, setDescription] = useState("");
-    const [location, setLocation] = useState((0.0, 0.0));
     const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+
+    const [date, setDate] = useState(new Date());
+    const [location, setLocation] = useState({
+        latitude: 0,
+        longitude: 0,
+    });
+    const [modalMapVisible, setModalMapVisible] = useState(false);
 
     const [campaigns, setCampaigns] = React.useState([]);
+    const [campaign, setCampaign] = useState();
+    const [category, setCategory] = useState("");
+
+    const [address, setAddress] = useState("");
 
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({
@@ -100,9 +107,31 @@ export default function AddSighting({ navigation, route }) {
         setCampaigns(exampleCampaignsData);
     })
 
+    React.useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                if (location.latitude == 0 && location.longitude == 0)
+                    setLocation({
+                        latitude: campaigns[0].area.coordinates.latitude,
+                        longitude: campaigns[0].area.coordinates.longitude,
+                    });
+                return;
+            }
+
+            let userLocation = await Location.getCurrentPositionAsync({});
+            if (location.latitude == 0 && location.longitude == 0)
+                setLocation({
+                    latitude: userLocation.coords.latitude,
+                    longitude: userLocation.coords.longitude,
+                });
+        })();
+    })
+
     return (
         <ScrollView>
             <View style={styles.view}>
+                {/* select images */}
                 <View style={styles.container}>
                     <View>
                         <Text style={{ marginBottom: 5 }}>Image</Text>
@@ -110,6 +139,7 @@ export default function AddSighting({ navigation, route }) {
                     </View>
                 </View>
 
+                {/* select title + description */}
                 <View style={styles.container}>
                     <View>
                         <Text style={{ marginBottom: 5 }}>Title</Text>
@@ -140,15 +170,17 @@ export default function AddSighting({ navigation, route }) {
                     </View>
                 </View>
 
+                {/* select date + address */}
                 <View style={styles.container}>
                     <View>
                         <Text style={{ marginBottom: 5 }}>Date</Text>
-                        {/* <DatePicker date={date} setDate={setDate}/> */}
                         <TouchableOpacity
                             onPress={() => showMode('date')}
                         >
                             <TextInput
                                 style={styles.input}
+                                placeholder='November 30, 2023'
+                                placeholderTextColor='#ccc'
                                 value={date.toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" })}
                                 editable={false}
                                 color='#000'
@@ -157,20 +189,30 @@ export default function AddSighting({ navigation, route }) {
                     </View>
 
                     <View>
-                        <Text style={{ marginBottom: 5 }}>Adress</Text>
-                        <TextInput
-                            placeholder="ex: 123 Lane Park, 12345 LONDON"
-                            placeholderTextColor='#ccc'
-                            style={styles.input}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            onChangeText={setAddress}
-                            value={address}
+                        <Text style={{ marginBottom: 5 }}>Location</Text>
+                        <TouchableOpacity
+                            onPress={() => setModalMapVisible(true)}
+                        >
+                            <TextInput
+                                placeholder="ex: 48.130195, -1.650862"
+                                placeholderTextColor='#ccc'
+                                style={styles.input}
+                                value={location.latitude.toString().substring(0, 9) + ", " + location.longitude.toString().substring(0, 9)}
+                                editable={false}
+                                color='#000'
+                            />
+                        </TouchableOpacity>
+                        <ModalMap
+                            modalMapVisible={modalMapVisible}
+                            setModalMapVisible={setModalMapVisible}
+                            location={location}
+                            setLocation={setLocation}
                         />
                     </View>
 
                 </View>
 
+                {/* select campaign + category */}
                 <View style={styles.container}>
                     <View>
                         <Text style={{ marginBottom: 5 }}>Campaign</Text>
