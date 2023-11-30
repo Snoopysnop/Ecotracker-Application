@@ -59,7 +59,7 @@ export default function ListExplore({ navigation, route }) {
     const exploreAllView = (
         <ScrollView style={{
             margin: 20,
-        }}>
+        }} showsHorizontalScrollIndicator={false}>
             <View style={{
                 gap: 10,
                 width: '100%',

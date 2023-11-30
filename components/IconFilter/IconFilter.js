@@ -25,7 +25,7 @@ export default function IconFilter({ data, setData }) {
 
     return (
         <View>
-            <ScrollView horizontal={true}>
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                 {icons.map((icon, index) => (
                     <TouchableOpacity
                         key={index}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Button, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Button, Text, View, TouchableOpacity, Image } from 'react-native';
 
 export default function ObservationImageList({ navigation, observations, route }) {
     return (

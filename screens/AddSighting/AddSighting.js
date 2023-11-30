@@ -1,18 +1,20 @@
 import React from 'react';
 import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Location from 'expo-location';
 
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import NavigationTitle from '../../components/NavigationTitle';
 import DropdownSelect from '../../components/DropdownSelect';
-// import CustomImagePicker from '../../components/ImagePicker';
 import ModalMap from './ModalMap';
 
 import { exampleCampaignsData, exampleObservationsData } from '../TemporaryData';
+import ImagesPicker from '../../components/ImagesPicker';
 
 export default function AddSighting({ navigation, route }) {
+    const [images, setImages] = React.useState([]);
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
@@ -26,8 +28,6 @@ export default function AddSighting({ navigation, route }) {
     const [campaigns, setCampaigns] = React.useState([]);
     const [campaign, setCampaign] = useState();
     const [category, setCategory] = useState("");
-
-    const [address, setAddress] = useState("");
 
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({
@@ -88,8 +88,13 @@ export default function AddSighting({ navigation, route }) {
                 // Prevent default behavior
                 e.preventDefault();
 
-                // TODO remove later
-                postObservation();
+                if ( images.length == 0
+                    || title == "" || description == ""
+                    || (location.latitude == 0 && location.longitude == 0)
+                    || !campaign || category == "") {
+                    Alert.alert('Missing Fields', 'Observation could not be created. Please make sure all the fields are correctly filled.');
+                }
+                else postObservation();
             });
 
             return unsubscribe;
@@ -129,13 +134,13 @@ export default function AddSighting({ navigation, route }) {
     })
 
     return (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.view}>
                 {/* select images */}
                 <View style={styles.container}>
                     <View>
                         <Text style={{ marginBottom: 5 }}>Image</Text>
-                        {/* <CustomImagePicker/> */}
+                        <ImagesPicker images={images} setImages={setImages} />
                     </View>
                 </View>
 

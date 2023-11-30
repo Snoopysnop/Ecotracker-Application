@@ -1,14 +1,33 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-import NavigationTitle from '../components/NavigationTitle';
+import NavigationTitle from '../../components/NavigationTitle';
+
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Account({ navigation, route }) {
+    const [image, setImage] = React.useState('https://react.semantic-ui.com/images/avatar/small/jenny.jpg');
+
     React.useEffect(() => {
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Account"} />,
         });
     })
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+          setImage(result.assets[0].uri);
+        }
+      };
 
     return (
         <View style={{
@@ -16,15 +35,15 @@ export default function Account({ navigation, route }) {
             width: '100%',
         }}>
             <View styles={styles.view}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={pickImage}>
                     <View style={styles.profilePictureContainer}>
                         <Image
-                            src='https://react.semantic-ui.com/images/avatar/small/jenny.jpg'
+                            src={image}
                             style={styles.profilePicture}
                         />
                         <Image
                             style={styles.editIcon}
-                            source={require("../assets/icons/edit.png")}
+                            source={require("../../assets/icons/edit.png")}
                         />
                     </View>
                 </TouchableOpacity>

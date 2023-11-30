@@ -16,7 +16,7 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
   ]);
 
   const firstView = () => (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       {observations.length ?
         <ObservationImageList observations={observations} navigation={navigation} route={route} /> :
         <NoResult message={'Observations' + observations.length} />
@@ -25,7 +25,7 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
   )
 
   const secondView = () => (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}> 
       {campaigns.length ?
         <CampaignImageList campaigns={campaigns} navigation={navigation} route={route} /> :
         <NoResult message='Campaigns' />

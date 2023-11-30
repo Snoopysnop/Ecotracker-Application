@@ -59,7 +59,7 @@ export default function Campaign({ navigation, route }) {
     const startDate = new Date(campaign.startDate).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" });
     const endDate = new Date(campaign.endDate).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" });
     const campaignView = (
-        <ScrollView style={styles.view}>
+        <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
             <View style={{
                 gap: 20,
             }}>

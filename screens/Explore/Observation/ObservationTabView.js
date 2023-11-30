@@ -32,7 +32,7 @@ export default function CustomTabView({ observation, comments }) {
 
   const date = new Date(observation.creationDate).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" });
   const FirstView = () => (
-    <ScrollView style={styles.view}>
+    <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Description</Text>
       <ViewMore description={observation.description}></ViewMore>
 
@@ -66,7 +66,7 @@ export default function CustomTabView({ observation, comments }) {
   )
 
   const ThirdView = () => (
-    <ScrollView style={styles.view}>
+    <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
       <Text style={{
         marginBottom: 10,
         ...styles.title
