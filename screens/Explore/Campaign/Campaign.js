@@ -77,7 +77,7 @@ export default function Campaign({ navigation, route }) {
                 </View>
 
                 <View>
-                    <Text style={styles.title}>Observations ({observations.length})</Text>
+                    <Text style={{marginBottom:10, ...styles.title}}>Observations ({observations.length})</Text>
                     <ObservationImageList observations={observations} navigation={navigation} route={route}></ObservationImageList>
                 </View>
             </View>

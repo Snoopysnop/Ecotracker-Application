@@ -3,7 +3,7 @@ import { StyleSheet, Button, Text, View, TouchableOpacity, Image } from 'react-n
 
 export default function ObservationImageList({ navigation, observations, route }) {
     return (
-        <View style={{ marginTop:10, flex: 1, backgroundColor: '#f6f6f6', width: '100%' }}>
+        <View style={{ flex: 1, backgroundColor: '#f6f6f6', width: '100%' }}>
             {observations.map((observation, index) => {
                 return (
                     <TouchableOpacity
