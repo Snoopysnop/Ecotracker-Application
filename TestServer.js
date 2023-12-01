@@ -8,7 +8,7 @@ export default function TestServer() {
     const [isLoading, setIsLoading] = React.useState(true);
 
     const fetchCampaigns = () => {
-        fetch('http://localhost:8080/campaigns')
+        fetch('http://192.168.1.27:8080/campaigns')
             .then(response => response.json())
             .then(json => {
                 setCampaigns(json);
