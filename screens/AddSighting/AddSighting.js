@@ -29,6 +29,8 @@ export default function AddSighting({ navigation, route }) {
     const [campaign, setCampaign] = useState();
     const [category, setCategory] = useState("");
 
+    const [error, setError] = React.useState(false);
+
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({
             value: date,
@@ -52,7 +54,7 @@ export default function AddSighting({ navigation, route }) {
             })
         };
 
-        fetch('http://localhost:8080/create-observation', requestOptions)
+        fetch('http://192.168.1.27:8080/create-observation', requestOptions)
             .then(response => {
                 navigation.navigate('SigthingAdded', {
                     creation: (response.status % 100 == 2),
@@ -70,15 +72,11 @@ export default function AddSighting({ navigation, route }) {
     }
 
     const fetchCampaigns = () => {
-        fetch('http://localhost:8080/campaigns'
-        )
+        fetch('http://192.168.1.27:8080/campaigns')
             .then(response => response.json())
-            .then(json => {
-                setCampaigns(json);
-            })
+            .then(json => setCampaigns(json))
             .catch((error) => {
                 console.error(error);
-                setError(true);
             })
     }
 
@@ -88,7 +86,7 @@ export default function AddSighting({ navigation, route }) {
                 // Prevent default behavior
                 e.preventDefault();
 
-                if ( images.length == 0
+                if (images.length == 0
                     || title == "" || description == ""
                     || (location.latitude == 0 && location.longitude == 0)
                     || !campaign || category == "") {
@@ -106,10 +104,7 @@ export default function AddSighting({ navigation, route }) {
             headerTitle: () => <NavigationTitle title={"Add Sigthing"} />,
         });
 
-        // fetchCampaigns();
-
-        // TODO remove when fetching works
-        setCampaigns(exampleCampaignsData);
+        fetchCampaigns();
     })
 
     React.useEffect(() => {
@@ -223,11 +218,11 @@ export default function AddSighting({ navigation, route }) {
                         <Text style={{ marginBottom: 5 }}>Campaign</Text>
                         <DropdownSelect
                             title='campaign'
-                            data={campaigns.map(c => c.title)}
+                            data={campaigns.map(c => c.name)}
                             selected={campaign}
                             setSelected={(campaignTitle) => {
                                 setCampaign(campaigns.find(c => {
-                                    return c.title === campaignTitle
+                                    return c.name === campaignTitle
                                 }))
                             }}
                         />

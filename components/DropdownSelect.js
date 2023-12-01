@@ -4,7 +4,7 @@ import { SelectList } from 'react-native-dropdown-select-list'
 export default function DropdownSelect({ title, data, selected, setSelected }) {
   return (
     <SelectList
-      setSelected={(item) => setSelected(item)}
+      setSelected={setSelected}
       data={data}
       save='value'
       placeholder={'select ' + title}

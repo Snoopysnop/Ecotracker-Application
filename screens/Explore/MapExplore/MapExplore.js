@@ -6,13 +6,24 @@ import MapView from 'react-native-maps';
 import { Marker, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 
-import { exampleCampaignsData } from '../../TemporaryData';
-
-export default function MapExplore({ navigationParent, navigation, route, campaigns }) {
+export default function MapExplore({ navigationParent, navigation, route }) {
+    const [error, setError] = React.useState(false);
     const [location, setLocation] = React.useState();
     const [isLoading, setIsLoading] = React.useState(true);
+    const [campaigns, setCampaigns] = React.useState([]);
 
-    campaigns = exampleCampaignsData; // TODO remove
+    const fetchCampaigns = () => {
+        fetch('http://192.168.1.27:8080/campaigns')
+            .then(response => response.json())
+            .then(json => {
+                setCampaigns(json);
+            })
+            .catch((error) => {
+                console.error(error);
+                setError(true);
+            })
+            .finally(() => setIsLoading(false));
+    }
 
     React.useEffect(() => {
         route.params?.navigationParent.setOptions({
@@ -22,7 +33,10 @@ export default function MapExplore({ navigationParent, navigation, route, campai
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Explore All Campaigns"} />,
         });
-    })
+
+        setIsLoading(true);
+        fetchCampaigns();
+    }, [])
 
     React.useEffect(() => {
         (async () => {

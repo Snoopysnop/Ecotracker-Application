@@ -20,7 +20,7 @@ export default function Home({ navigation, route }) {
     const [firstTab, setFirstTab] = React.useState(true);
 
     const fetchMyCampaigns = () => {
-        fetch('http://localhost:8080/campaigns'
+        fetch('http://192.168.1.27:8080/campaigns'
         )
             .then(response => response.json())
             .then(json => {
@@ -36,7 +36,7 @@ export default function Home({ navigation, route }) {
     }
 
     const fetchMyObservations = () => {
-        fetch("http://localhost:8080/observations")
+        fetch("http://192.168.1.27:8080/observations")
             .then((response) => {
                 let response2 = response.json()
                 setMyObservations(response2);

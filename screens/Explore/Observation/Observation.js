@@ -16,7 +16,7 @@ export default function Observation({ observationData, navigation, route, ID }) 
     const observationn = route.params?.observationData;
 
     const fetchComments = () => {
-        fetch('http://localhost:8080/comments/#' + ID)
+        fetch('http://192.168.1.27:8080/comments/#' + ID)
             .then((response) => setComments(response.json()))
             .catch((error) => {
                 console.error(error);

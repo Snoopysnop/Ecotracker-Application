@@ -18,12 +18,13 @@ export default function ListExplore({ navigation, route }) {
     const [filteredCampaigns, setFilteredCampaigns] = React.useState([]);
 
     const fetchCampaigns = () => {
-        fetch('http://localhost:8080/campaigns')
-            .then((response) => {
-                setCampaigns(response.json());
-                setFilteredCampaigns(response.json());
-                setIconFilteredCampaigns(response.json());
-                setInputFilteredCampaigns(response.json());
+        fetch('http://192.168.1.27:8080/campaigns')
+            .then(response => response.json())
+            .then(json => {
+                setCampaigns(json);
+                setFilteredCampaigns(json);
+                setIconFilteredCampaigns(json);
+                setInputFilteredCampaigns(json);
             })
             .catch((error) => {
                 console.error(error);
@@ -40,16 +41,9 @@ export default function ListExplore({ navigation, route }) {
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Exploring All Campaigns"} />,
         });
-        
-        setIsLoading(true);
-        // fetchCampaigns();
 
-        // TODO remove when fetching works
-        setCampaigns(exampleCampaignsData);
-        setFilteredCampaigns(exampleCampaignsData);
-        setIconFilteredCampaigns(exampleCampaignsData);
-        setInputFilteredCampaigns(exampleCampaignsData);
-        setIsLoading(false);
+        setIsLoading(true);
+        fetchCampaigns();
     }, [])
 
     React.useEffect(() => {
@@ -70,7 +64,7 @@ export default function ListExplore({ navigation, route }) {
                 <IconFilter data={campaigns} setData={setIconFilteredCampaigns} />
                 {filteredCampaigns?.length ?
                     <CampaignImageList campaigns={filteredCampaigns} navigation={navigation} route={route}></CampaignImageList> :
-                    <NoResult message='Campaigns'/>
+                    <NoResult message='Campaigns' />
                 }
             </View>
         </ScrollView >
