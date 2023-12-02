@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-import NavigationTitle from '../../components/NavigationTitle';
-
 import * as ImagePicker from 'expo-image-picker';
 
+import NavigationTitle from '../../components/NavigationTitle';
+
 export default function Account({ navigation, route }) {
+    // TODO retrieve user's profile picture
     const [image, setImage] = React.useState('https://react.semantic-ui.com/images/avatar/small/jenny.jpg');
 
     React.useEffect(() => {
@@ -21,9 +22,7 @@ export default function Account({ navigation, route }) {
           aspect: [1, 1],
           quality: 1,
         });
-    
-        console.log(result);
-    
+        
         if (!result.canceled) {
           setImage(result.assets[0].uri);
         }
@@ -66,8 +65,6 @@ const styles = StyleSheet.create({
     view: {
         margin: 20,
         marginBottom: 100,
-        // gap: 20,
-        // height: '100%',
     },
     profilePictureContainer: {
         justifyContent: 'center',

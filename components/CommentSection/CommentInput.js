@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 export default function CommentInput({ parentID, avatarImg, setReplyInputOpen }) {
-    const [comment, setComment] = useState("");
+    const [comment, setComment] = React.useState("");
 
     const postComment = () => {
         // TODO implement post comment
         let newComment = {
-            author: "TODO current author",
+            author: "current user",
             comment: comment,
             parentID: parentID,
         }

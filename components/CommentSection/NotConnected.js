@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
+import React from 'react';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 
 export default function NotConnected() {
     return (

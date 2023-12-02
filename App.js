@@ -1,9 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { StyleSheet, View } from 'react-native';
-
-import Tabs from './NavigationMenu';
 
 import * as SplashScreen from 'expo-splash-screen';
+
+import Tabs from './NavigationMenu';
 
 export default function App() {
   SplashScreen.preventAutoHideAsync();

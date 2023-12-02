@@ -1,11 +1,8 @@
 import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, ScrollView } from 'react-native';
 
-import IconFilter from '../../components/IconFilter/IconFilter';
 import SearchBar from '../../components/SearchBar';
-import CampaignImageList from '../../components/CampaignImageList';
 import NavigationTitle from '../../components/NavigationTitle';
-import NoResult from '../../components/NoResult';
 import HomeTabView from './HomeTabView';
 
 import { exampleCampaignsData, exampleObservationsData } from '../TemporaryData';
@@ -53,7 +50,7 @@ export default function Home({ navigation, route }) {
         route.params?.navigationParent.setOptions({
             headerShown: false,
         });
-        
+
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Home"} />,
         });
@@ -88,7 +85,6 @@ export default function Home({ navigation, route }) {
                     <ActivityIndicator size="large" />
                 </View>) :
                 (error ?
-                    // TODO make the error page look nice
                     <Text>Sorry, a problem occured while retrieving your observations. Please try again later.</Text> :
                     homeView
                 )

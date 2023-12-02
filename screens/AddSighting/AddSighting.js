@@ -1,35 +1,32 @@
 import React from 'react';
-import { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Alert } from 'react-native';
+
 import { useFocusEffect } from '@react-navigation/native';
 import * as Location from 'expo-location';
-
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import NavigationTitle from '../../components/NavigationTitle';
-import DropdownSelect from '../../components/DropdownSelect';
-import ModalMap from './ModalMap';
 
-import { exampleCampaignsData, exampleObservationsData } from '../TemporaryData';
-import ImagesPicker from '../../components/ImagesPicker';
+import DropdownSelect from '../../components/DropdownSelect';
+import ImagesPicker from '../../components/ImagesPicker/ImagesPicker';
+import ModalMap from './ModalMap';
+import NavigationTitle from '../../components/NavigationTitle';
+
 
 export default function AddSighting({ navigation, route }) {
     const [images, setImages] = React.useState([]);
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
+    const [title, setTitle] = React.useState("");
+    const [description, setDescription] = React.useState("");
 
-    const [date, setDate] = useState(new Date());
-    const [location, setLocation] = useState({
+    const [date, setDate] = React.useState(new Date());
+    const [location, setLocation] = React.useState({
         latitude: 0,
         longitude: 0,
     });
-    const [modalMapVisible, setModalMapVisible] = useState(false);
+    const [modalMapVisible, setModalMapVisible] = React.useState(false);
 
     const [campaigns, setCampaigns] = React.useState([]);
-    const [campaign, setCampaign] = useState();
-    const [category, setCategory] = useState("");
-
-    const [error, setError] = React.useState(false);
+    const [campaign, setCampaign] = React.useState();
+    const [category, setCategory] = React.useState("");
 
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({
@@ -42,7 +39,7 @@ export default function AddSighting({ navigation, route }) {
     };
 
     const postObservation = () => {
-        // TODO send images, update author, retrieve localisation
+        // TODO send images + get user
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -50,7 +47,8 @@ export default function AddSighting({ navigation, route }) {
                 taxonomyGroup: category,
                 title: title,
                 description: description,
-                creationDate: date
+                creationDate: date,
+                location: location,
             })
         };
 
@@ -218,11 +216,11 @@ export default function AddSighting({ navigation, route }) {
                         <Text style={{ marginBottom: 5 }}>Campaign</Text>
                         <DropdownSelect
                             title='campaign'
-                            data={campaigns.map(c => c.name)}
+                            data={campaigns.map(c => c.title)}
                             selected={campaign}
                             setSelected={(campaignTitle) => {
                                 setCampaign(campaigns.find(c => {
-                                    return c.name === campaignTitle
+                                    return c.title === campaignTitle
                                 }))
                             }}
                         />

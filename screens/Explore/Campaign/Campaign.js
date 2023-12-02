@@ -1,13 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, ActivityIndicator, View } from 'react-native';
 
-import Observation from '../Observation/Observation';
 import NavigationTitle from '../../../components/NavigationTitle';
 import ObservationImageList from '../../../components/ObservationImageList';
 import ViewMore from '../../../components/ViewMore';
-import MapView from 'react-native-maps';
-
-import { exampleObservationsData } from '../../TemporaryData';
 import CampaignMap from './CampaignMap';
 
 export default function Campaign({ navigation, route }) {
@@ -17,11 +13,12 @@ export default function Campaign({ navigation, route }) {
     const [campaign, setCampaign] = React.useState('');
 
     const fetchObservations = () => {
-        fetch('http://192.168.1.27:8080/observations')
+        fetch('http://192.168.1.27:8080/campaign/' + route.params?.ID + '/observations')
             .then(response => response.json())
             .then(json => setObservations(json))
             .catch((error) => {
                 console.error(error);
+                setObservations([]);
                 setError(true);
             })
             .finally(() => setIsLoading(false));
@@ -77,7 +74,6 @@ export default function Campaign({ navigation, route }) {
                     <ActivityIndicator size="large" />
                 </View>) :
                 (error ?
-                    // TODO make the error page look nice
                     <Text>Sorry, a problem occured while retrieving observations. Please try again later.</Text> :
                     campaignView
                 )

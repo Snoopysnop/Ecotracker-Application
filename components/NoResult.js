@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ActivityIndicator, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 
 export default function NoResult({ message }) {
     return (

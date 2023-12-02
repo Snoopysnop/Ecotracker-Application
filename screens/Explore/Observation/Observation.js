@@ -11,7 +11,6 @@ export default function Observation({ observationData, navigation, route, ID }) 
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
     const [comments, setComments] = React.useState('');
-    // const { observationn } = route.params?.observationData;
 
     const observationn = route.params?.observationData;
 
@@ -37,6 +36,7 @@ export default function Observation({ observationData, navigation, route, ID }) 
         setIsLoading(true);
         // fetchComments();
 
+        // TODO remove when fetching works
         setComments(exampleComments);
         setIsLoading(false);
     }, [])
@@ -57,7 +57,6 @@ export default function Observation({ observationData, navigation, route, ID }) 
                         <ActivityIndicator size="large" />
                     </View>) :
                     (error ?
-                        // TODO make the error page look nice
                         <Text>Sorry, a problem occured. Please try again later.</Text> :
                         observationView
                     )

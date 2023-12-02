@@ -1,17 +1,20 @@
+import React from 'react';
 import {View, useWindowDimensions} from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
+
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
   useAnimatedRef,
 } from 'react-native-reanimated';
+
 import Pagination from './Pagination';
 import CustomImage from './CustomImage';
+
 const CustomImageCarousal = ({data, autoPlay, pagination}) => {
   const scrollViewRef = useAnimatedRef(null);
-  const interval = useRef();
-  const [isAutoPlay, setIsAutoPlay] = useState(autoPlay);
-  const [newData, setNewData] = useState(data);
+  const interval = React.useRef();
+  const [isAutoPlay, setIsAutoPlay] = React.useState(autoPlay);
+  const [newData, setNewData] = React.useState(data);
   const {width} = useWindowDimensions();
   const SIZE = width * 0.45;
   const SPACER = (width - SIZE) / 3;
@@ -19,7 +22,7 @@ const CustomImageCarousal = ({data, autoPlay, pagination}) => {
   const offSet = useSharedValue(0);
 
   // Update newData if data change
-  useEffect(() => {
+  React.useEffect(() => {
     setNewData(data);
   }, [data]);
 
@@ -32,7 +35,7 @@ const CustomImageCarousal = ({data, autoPlay, pagination}) => {
     },
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isAutoPlay === true) {
       let _offSet = offSet.value;
       interval.current = setInterval(() => {

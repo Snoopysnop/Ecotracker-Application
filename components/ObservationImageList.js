@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Button, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 export default function ObservationImageList({ navigation, observations, route }) {
     return (
         <View style={{ flex: 1, backgroundColor: '#f6f6f6', width: '100%' }}>
-            {observations.map((observation, index) => {
+            {observations?.map((observation, index) => {
                 return (
                     <TouchableOpacity
                         key={index}

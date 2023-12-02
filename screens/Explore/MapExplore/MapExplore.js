@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet, PermissionsAndroid } from 'react-native';
+import { View } from 'react-native';
 
-import NavigationTitle from '../../../components/NavigationTitle';
 import MapView from 'react-native-maps';
 import { Marker, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 
-export default function MapExplore({ navigationParent, navigation, route }) {
+import NavigationTitle from '../../../components/NavigationTitle';
+
+export default function MapExplore({ navigation, route }) {
     const [error, setError] = React.useState(false);
     const [location, setLocation] = React.useState();
     const [isLoading, setIsLoading] = React.useState(true);
@@ -43,8 +44,8 @@ export default function MapExplore({ navigationParent, navigation, route }) {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setLocation({
-                    latitude : campaigns[0].area.coordinates.latitude,
-                    longitude : campaigns[0].area.coordinates.longitude,
+                    latitude: campaigns[0].area.coordinates.latitude,
+                    longitude: campaigns[0].area.coordinates.longitude,
                 });
                 setIsLoading(false);
                 return;
@@ -52,15 +53,15 @@ export default function MapExplore({ navigationParent, navigation, route }) {
 
             let userLocation = await Location.getCurrentPositionAsync({});
             setLocation({
-                latitude : userLocation.coords.latitude,
-                longitude : userLocation.coords.longitude,
+                latitude: userLocation.coords.latitude,
+                longitude: userLocation.coords.longitude,
             });
             setIsLoading(false);
         })();
     })
 
     return (
-        <View style={styles.view}>
+        <View>
             {!isLoading &&
                 <MapView
                     style={{ width: '100%', height: '100%' }}
@@ -81,7 +82,7 @@ export default function MapExplore({ navigationParent, navigation, route }) {
                                     longitude: campaign.area.coordinates.longitude,
                                 }}
                                 title={campaign.title}
-                                description={campaign.author}
+                                description={campaign.organization_name}
                                 onCalloutPress={() => navigation.navigate('Campaign', {
                                     campaign: campaign,
                                     navigation: navigation,
@@ -106,11 +107,3 @@ export default function MapExplore({ navigationParent, navigation, route }) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    view: {
-        // TODO remove if not needed anymore
-        // margin: 20,
-        // marginBottom: 100,
-    }
-})

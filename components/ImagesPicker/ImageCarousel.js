@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, FlatList, Image, StyleSheet, Dimensions, TouchableOpacity, Button, Text } from 'react-native';
+import { View, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default ImageCarousel = ({ images, pickImage }) => {
+export default function ImageCarousel({ images, pickImage }) {
   const renderItem = ({ item }) => (
     <View style={styles.carouselItem}>
       <Image
@@ -10,19 +10,13 @@ export default ImageCarousel = ({ images, pickImage }) => {
     </View>
   );
 
-  const addPhotos = () => (
-    images.length ?
-      <TouchableOpacity style={styles.addPhotos} onPress={pickImage}>
-        <Image
-          source={require('../../assets/icons/more.png')}
-          style={styles.addPhotosIcon}
-        />
-      </TouchableOpacity> :
-      <TouchableOpacity style={styles.buttonContainer} onPress={pickImage}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Add Photos</Text>
-        </View>
-      </TouchableOpacity>
+  const addPhotos = (
+    <TouchableOpacity style={styles.addPhotos} onPress={pickImage}>
+      <Image
+        source={require('../../assets/icons/more.png')}
+        style={styles.addPhotosIcon}
+      />
+    </TouchableOpacity>
   )
 
   return (
@@ -80,6 +74,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    backgroundColor:'#fff'
   },
   buttonText: {
     color: '#2E9A99',

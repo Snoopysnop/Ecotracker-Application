@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ActivityIndicator, View, Text, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, Text, Image } from 'react-native';
 
 import NavigationTitle from '../../components/NavigationTitle';
 

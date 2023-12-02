@@ -7,8 +7,6 @@ import SearchBar from '../../../components/SearchBar';
 import IconFilter from '../../../components/IconFilter/IconFilter';
 import NoResult from '../../../components/NoResult';
 
-import { exampleCampaignsData } from '../../TemporaryData';
-
 export default function ListExplore({ navigation, route }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
@@ -77,7 +75,6 @@ export default function ListExplore({ navigation, route }) {
                     <ActivityIndicator size="large" />
                 </View>) :
                 (error ?
-                    // TODO make the error page look nice
                     <Text>Sorry, a problem occured while retrieving campaigns. Please try again later.</Text> :
                     exploreAllView
                 )

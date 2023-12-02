@@ -1,5 +1,6 @@
-import ViewMoreText from 'react-native-view-more-text';
 import { StyleSheet, Text } from 'react-native';
+
+import ViewMoreText from 'react-native-view-more-text';
 
 export default function ViewMore({ description }) {
     const renderViewMore = (onPress) => {

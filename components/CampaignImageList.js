@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Button, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 export default function CampaignImageList({ navigation, campaigns, route }) {
     return (
@@ -19,14 +19,14 @@ export default function CampaignImageList({ navigation, campaigns, route }) {
 
                         <View style={[styles.centerElement, { width: 75 }]}>
                             <Image
-                                // source={require("../assets/" + campaign.image)}
+                                source={require("../assets/WesternHoneyBee1.jpeg")}
                                 style={styles.image}
                             />
                         </View>
 
                         <View style={{ flexGrow: 1, flexShrink: 1, alignSelf: 'center' }}>
                             <Text style={{ fontSize: 15 }}>{campaign.title}</Text>
-                            <Text numberOfLines={1} style={{ color: '#8f8f8f' }}>{campaign.author}</Text>
+                            <Text numberOfLines={1} style={{ color: '#8f8f8f' }}>{campaign.organization_name}</Text>
                         </View>
 
                         <View style={[styles.centerElement, { marginRight: 20 }]}>

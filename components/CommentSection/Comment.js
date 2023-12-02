@@ -1,5 +1,6 @@
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
@@ -22,19 +23,18 @@ export default function Comment({ comment, reply }) {
           <Text style={styles.date}> {timeAgo(new Date(comment.date).getTime())} </Text>
         </View>
         <View>
-          <Text style={styles.comment}>{comment.content}</Text>
+          <Text>{comment.content}</Text>
         </View>
         <TouchableOpacity onPress={() => setReplyInputOpen(!replyInputOpen)}>
           <Text style={styles.replyAction}>Reply</Text>
         </TouchableOpacity>
-        {replyInputOpen && (
-          userConnected ?
-            <CommentInput
-              reply={true}
-              avatarImg='https://react.semantic-ui.com/images/avatar/small/elliot.jpg'
-              setReplyInputOpen={setReplyInputOpen}
-              parentID={comment.id} /> :
-            <NotConnected />
+        {replyInputOpen && (userConnected ?
+          <CommentInput
+            reply={true}
+            avatarImg='https://react.semantic-ui.com/images/avatar/small/elliot.jpg'
+            setReplyInputOpen={setReplyInputOpen}
+            parentID={comment.id} /> :
+          <NotConnected />
         )
         }
       </View>
@@ -42,7 +42,7 @@ export default function Comment({ comment, reply }) {
   )
 }
 
-// and returns a string that represents how long ago the date was
+// returns a string that represents how long ago the date was
 const timeAgo = (date) => {
   const seconds = Math.floor((Date.now() - date) / 1000);
 
@@ -105,13 +105,10 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 12,
   },
-  comment: {
-  },
   replyAction: {
     color: 'grey',
     marginTop: 5,
     fontSize: 12,
     fontWeight: '500',
-
   },
 })

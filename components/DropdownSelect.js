@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { SelectList } from 'react-native-dropdown-select-list'
 
-export default function DropdownSelect({ title, data, selected, setSelected }) {
+export default function DropdownSelect({ title, data, setSelected }) {
   return (
     <SelectList
       setSelected={setSelected}

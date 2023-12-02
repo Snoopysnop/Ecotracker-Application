@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, View, Text, useWindowDimensions, Image, Icon } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, useWindowDimensions } from 'react-native';
+
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 import ObservationImageList from '../../components/ObservationImageList';
@@ -8,7 +9,6 @@ import NoResult from '../../components/NoResult';
 
 export default function HomeTabView({ setFirstTab, campaigns, observations, navigation, route }) {
   const layout = useWindowDimensions();
-
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'observations', title: 'Observations' },
@@ -16,7 +16,7 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
   ]);
 
   const firstView = () => (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 115 }}>
       {observations.length ?
         <ObservationImageList observations={observations} navigation={navigation} route={route} /> :
         <NoResult message={'Observations' + observations.length} />
@@ -25,7 +25,7 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
   )
 
   const secondView = () => (
-    <ScrollView showsVerticalScrollIndicator={false}> 
+    <ScrollView showsVerticalScrollIndicator={false}>
       {campaigns.length ?
         <CampaignImageList campaigns={campaigns} navigation={navigation} route={route} /> :
         <NoResult message='Campaigns' />
@@ -60,42 +60,13 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
   return (
     <TabView
       navigationState={{ index, routes }}
-      renderScene={SceneMap({
-        observations: firstView,
-        campaigns: secondView,
-      })}
+      renderScene={renderScene}
       onIndexChange={(index) => {
         setIndex(index);
         setFirstTab(index == 0);
       }}
       initialLayout={{ width: layout.width }}
-      renderTabBar={(props) => (
-        <TabBar
-          {...props}
-          indicatorStyle={{ backgroundColor: '#2E9A99' }}
-          style={{ backgroundColor: 'white' }}
-          labelStyle={{ color: '#000' }}
-          renderLabel={({ route, focused }) => (
-            <View>
-              <Text style={{ color: '#2E9A99', textAlign: 'center', fontWeight: '600' }}>
-                {route.title == 'Observations' ? observations.length : campaigns.length}
-              </Text>
-              <Text style={{ color: (focused ? '#000' : '#ccc'), textAlign: 'center' }}>
-                {route.title.toUpperCase()}
-              </Text>
-            </View>
-          )}
-        />
-      )}
+      renderTabBar={renderTabBar}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 15,
-    color: '#2E9A99',
-  },
-})

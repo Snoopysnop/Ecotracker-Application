@@ -1,8 +1,7 @@
 import React from 'react'
+import { Text, View, StyleSheet } from 'react-native';
 
 import Comment from './Comment';
-import NoResult from '../NoResult';
-import { Text, View, StyleSheet } from 'react-native';
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 

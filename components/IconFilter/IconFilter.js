@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 
 import { icons } from './IconList';
 
@@ -17,7 +17,6 @@ export default function IconFilter({ data, setData }) {
         }
         icon.selected = !icon.selected;
         setGroupsSelected(newGroupsSelected);
-        console.log(data[0].groupsToIdentify)
         setData(newGroupsSelected.length ?
             data.filter(campaign => campaign.groupsToIdentify.some(group => newGroupsSelected.includes(group))) :
             data

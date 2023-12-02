@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, Image } from 'react-native';
+import React from 'react';
+import { Modal, StyleSheet, Text, Pressable, View, Image } from 'react-native';
 
 import MapView from 'react-native-maps';
 

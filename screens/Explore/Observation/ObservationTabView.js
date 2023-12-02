@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, ScrollView, View, Text, useWindowDimensions, Image } from 'react-native';
+
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-// import { MapView, Marker } from 'react-native-maps';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 
@@ -44,6 +44,7 @@ export default function CustomTabView({ observation, comments }) {
 
   const SecondView = () => (
     <View style={styles.view}>
+      {console.log(observation)}
       <MapView
         style={{ width: '100%', height: '100%' }}
         initialRegion={{
