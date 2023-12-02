@@ -102,7 +102,7 @@ export const exampleObservationsData = [{
     author: "Reiner",
     taxonomyGroup: "Insect",
     title: "Eyed Lady Bug",
-    coordinates: {
+    location: {
         latitude: 48.130195,
         longitude: -1.650862,
     },
@@ -117,7 +117,7 @@ export const exampleObservationsData = [{
     author: "Srall",
     taxonomyGroup: "Insect",
     title: "Western Honey Bee",
-    coordinates: {
+    location: {
         latitude: 48.117941,
         longitude: -1.643465,
     },
@@ -132,7 +132,7 @@ export const exampleObservationsData = [{
     author: "Gwen",
     taxonomyGroup: "Bird",
     title: "Woodpecker",
-    coordinates: {
+    location: {
         latitude: 48.111116,
         longitude: -1.684884,
     },
@@ -147,7 +147,7 @@ export const exampleObservationsData = [{
     author: "Srall",
     taxonomyGroup: "Plant",
     title: "Daisy",
-    coordinates: {
+    location: {
         latitude: 48.135591,
         longitude: -1.649429,
     },
@@ -162,7 +162,7 @@ export const exampleObservationsData = [{
     author: "Max",
     taxonomyGroup: "Plant",
     title: "Dandelion",
-    coordinates: {
+    location: {
         latitude: 48.133478,
         longitude: -1.643253,
     },
@@ -177,7 +177,7 @@ export const exampleObservationsData = [{
     author: "Sophia",
     taxonomyGroup: "Fungi",
     title: "Boletus",
-    coordinates: {
+    location: {
         latitude: 48.133478,
         longitude: -1.643253,
     },
@@ -192,7 +192,7 @@ export const exampleObservationsData = [{
     author: "Nal",
     taxonomyGroup: "Bird",
     title: "Robin",
-    coordinates: {
+    location: {
         latitude: 48.108271,
         longitude: -1.683326,
     },
@@ -207,7 +207,7 @@ export const exampleObservationsData = [{
     author: "Chloe",
     taxonomyGroup: "Plant",
     title: "Tulip",
-    coordinates: {
+    location: {
         latitude: 48.136874,
         longitude: -1.643037,
     },

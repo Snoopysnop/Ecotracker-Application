@@ -44,20 +44,19 @@ export default function CustomTabView({ observation, comments }) {
 
   const SecondView = () => (
     <View style={styles.view}>
-      {console.log(observation)}
       <MapView
         style={{ width: '100%', height: '100%' }}
         initialRegion={{
-          latitude: observation.coordinates.latitude,
-          longitude: observation.coordinates.longitude,
+          latitude: observation.location.latitude,
+          longitude: observation.location.longitude,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
       >
         <Marker
           coordinate={{
-            latitude: observation.coordinates.latitude,
-            longitude: observation.coordinates.longitude,
+            latitude: observation.location.latitude,
+            longitude: observation.location.longitude,
           }}
           title={observation.title}
           description={observation.author}
