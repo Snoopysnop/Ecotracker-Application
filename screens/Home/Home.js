@@ -59,15 +59,17 @@ export default function Home({ navigation, route }) {
         });
 
         setIsLoading(true);
-        // fetchMyCampaigns();
-        // fetchMyObservations();
+        fetchMyCampaigns();
+        fetchMyObservations();
 
         // TODO remove when fetching works
+        /*
         setMyCampaigns(exampleCampaignsData);
         setMyCampaignsFiltered(exampleCampaignsData);
         setMyObservations(exampleObservationsData);
         setMyObservationsFiltered(exampleObservationsData);
         setIsLoading(false);
+        */
     }, [])
 
     const homeView = (
