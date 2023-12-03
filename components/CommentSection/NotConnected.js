@@ -17,7 +17,6 @@ export default function NotConnected() {
                 <Text style={{
                     color: '#2E9A99',
                     borderColor: '#2E9A99',
-                    alignContent: 'flex-end',
                     borderRadius: 8,
                     borderWidth: 2,
                     ...styles.button
@@ -28,7 +27,6 @@ export default function NotConnected() {
                 <Text style={{
                     color: '#fff',
                     backgroundColor: '#2E9A99',
-                    alignSelf: 'flex-end',
                     ...styles.button
                 }}>Sign Up</Text>
             </TouchableOpacity>
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        padding: 20,
+        padding: 12,
         borderRadius: 10,
         gap: 10,
         alignItems: 'center',
@@ -57,6 +55,6 @@ const styles = StyleSheet.create({
         fontWeight: '200',
         color: 'grey',
         fontStyle: 'italic',
-        maxWidth: 250,
+        width: 100,
     },
 })

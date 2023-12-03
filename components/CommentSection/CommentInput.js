@@ -1,13 +1,13 @@
 import React from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 
-export default function CommentInput({ parentID, avatarImg, setReplyInputOpen }) {
+export default function CommentInput({ parentID, user, reply, setReplyInputOpen }) {
     const [comment, setComment] = React.useState("");
 
     const postComment = () => {
         // TODO implement post comment
         let newComment = {
-            author: "current user",
+            author: user.pseudo,
             comment: comment,
             parentID: parentID,
         }
@@ -16,19 +16,22 @@ export default function CommentInput({ parentID, avatarImg, setReplyInputOpen })
     return (
         <View
             style={{
-                backgroundColor: (parentID != 0 ? '' : '#E1E8E8'),
+                paddingTop: (reply ? 5 : 0),
                 ...styles.container
             }}
         >
             <Image
-                source={avatarImg}
+                src={user.profilePicture}
                 style={styles.avatar}
             />
 
             <TextInput
-                style={styles.inputStyle}
+                style={{
+                    width: reply ? 160 : 210,
+                    ...styles.inputStyle
+                }}
                 placeholder={
-                    parentID != 0
+                    reply
                         ? "type your reply here..."
                         : "type your comment here..."
                 }
@@ -39,28 +42,27 @@ export default function CommentInput({ parentID, avatarImg, setReplyInputOpen })
                 autoCorrect={false}
             />
 
-            {parentID != 0 && (
-                <TouchableOpacity onPress={() => setReplyInputOpen(false)}>
-                    <Text style={{
-                        color: '#8a8a8a',
-                        backgroundColor: '#ccc',
-                        ...styles.button
-                    }}>Cancel</Text>
-                </TouchableOpacity>
-            )}
-
             <TouchableOpacity onPress={() => {
-                setReplyInputOpen(false);
+                if (reply) setReplyInputOpen(false);
                 postComment();
-            }
-            }>
-                <Text style={{
-                    color: '#fff',
+            }}>
+                <View style={{
                     backgroundColor: '#2E9A99',
-                    ...styles.button
-                }}>Post</Text>
-            </TouchableOpacity>
-        </View>
+                    borderRadius: 10,
+                    padding: 10,
+                    paddingHorizontal: 10,
+                }}>
+                    <Image
+                        source={require('../../assets/icons/send.png')}
+                        style={{
+                            tintColor: '#fff',
+                            width: 20,
+                            height: 20,
+                        }}
+                    />
+                </View>
+            </TouchableOpacity >
+        </View >
     )
 }
 
@@ -68,7 +70,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        padding: 20,
         borderRadius: 10,
         gap: 10,
         alignItems: 'center',
@@ -85,22 +86,19 @@ const styles = StyleSheet.create({
         fontWeight: '200',
         color: 'grey',
         fontStyle: 'italic',
-        maxWidth: 250,
     },
     avatar: {
-        width: 50,
-        height: 50,
-        borderRadius: 50,
+        width: 40,
+        height: 40,
+        borderRadius: 40,
     },
     inputStyle: {
-        width: '100%',
-        outlineStyle: 'none',
         borderColor: "#bbb",
         borderRadius: 8,
         borderWidth: 1,
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingHorizontal: 20,
-        paddingVertical: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 5,
     },
 })

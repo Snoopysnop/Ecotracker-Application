@@ -58,7 +58,7 @@ export default function MapExplore({ navigation, route }) {
             });
             setIsLoading(false);
         })();
-    })
+    }, [])
 
     return (
         <View>

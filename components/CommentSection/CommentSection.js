@@ -5,37 +5,45 @@ import Comment from './Comment';
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
-export default function CommentSection({ comments }) {
-    const [error, setError] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(true);
-
-    // TODO replace with true information
-    const userConnected = false;
+export default function CommentSection({ route, comments }) {
+    const user = route.params?.user;
 
     const noComments = (
         <View style={styles.view}>
+            {user ?
+                <CommentInput
+                    reply={false}
+                    user={user}
+                /> :
+                <NotConnected />
+            }
             <Text style={styles.subtitle}>No comments yet, be the first!</Text>
         </View>
     )
 
     const commentSection = (
         <View>
-            {userConnected ?
+            {user ?
                 <CommentInput
                     reply={false}
-                    avatarImg='https://react.semantic-ui.com/images/avatar/small/elliot.jpg'
+                    user={user}
                 /> :
                 <NotConnected />
             }
             {
-                comments.map((comment, indexComment) => (
+                comments?.map((comment, indexComment) => (
                     <View key={"comment" + indexComment}>
-                        <Comment comment={comment} reply={false} />
+                        <Comment comment={comment} reply={false} user={user} />
                         {
                             comment.replies &&
                             <View>
                                 {comment.replies?.map((replies, indexReplies) => (
-                                    <Comment key={"comment" + indexComment + "reply" + indexReplies} comment={replies} reply={true}/>
+                                    <Comment
+                                        key={"comment" + indexComment + "reply" + indexReplies}
+                                        comment={replies}
+                                        reply={true}
+                                        user={user}
+                                    />
                                 ))}
                             </View>
                         }
@@ -57,7 +65,6 @@ const styles = StyleSheet.create({
     view: {
         paddingBottom: 100,
         width: '100%',
-        height: '100%',
         justifyContent: 'center', //Centered vertically
         alignItems: 'center', //Centered horizontally
     },
@@ -68,5 +75,6 @@ const styles = StyleSheet.create({
         color: 'grey',
         fontStyle: 'italic',
         maxWidth: 250,
+        paddingTop: 50,
     },
 })

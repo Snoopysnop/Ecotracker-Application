@@ -17,13 +17,11 @@ export default function Home({ navigation, route }) {
     const [firstTab, setFirstTab] = React.useState(true);
 
     const fetchMyCampaigns = () => {
-        fetch('http://192.168.1.27:8080/campaigns'
-        )
+        fetch('http://192.168.1.27:8080/user/' + route.params?.user.pseudo + '/campaigns')
             .then(response => response.json())
             .then(json => {
-                let response1 = json
-                setMyCampaigns(response1);
-                setMyCampaignsFiltered(response1);
+                setMyCampaigns(json);
+                setMyCampaignsFiltered(json);
             })
             .catch((error) => {
                 console.error(error);
@@ -33,11 +31,11 @@ export default function Home({ navigation, route }) {
     }
 
     const fetchMyObservations = () => {
-        fetch("http://192.168.1.27:8080/observations")
-            .then((response) => {
-                let response2 = response.json()
-                setMyObservations(response2);
-                setMyObservationsFiltered(response2);
+        fetch('http://192.168.1.27:8080/user/' + route.params?.user.pseudo + '/observations')
+            .then((response) => response.json())
+            .then((json) => {
+                setMyObservations(json);
+                setMyObservationsFiltered(json);
             })
             .catch((error) => {
                 console.error(error);
@@ -56,15 +54,15 @@ export default function Home({ navigation, route }) {
         });
 
         setIsLoading(true);
-        // fetchMyCampaigns();
-        // fetchMyObservations();
+        fetchMyCampaigns();
+        fetchMyObservations();
 
         // TODO remove when fetching works
-        setMyCampaigns(exampleCampaignsData);
-        setMyCampaignsFiltered(exampleCampaignsData);
-        setMyObservations(exampleObservationsData);
-        setMyObservationsFiltered(exampleObservationsData);
-        setIsLoading(false);
+        // setMyCampaigns(exampleCampaignsData);
+        // setMyCampaignsFiltered(exampleCampaignsData);
+        // setMyObservations(exampleObservationsData);
+        // setMyObservationsFiltered(exampleObservationsData);
+        // setIsLoading(false);
     }, [])
 
     const homeView = (

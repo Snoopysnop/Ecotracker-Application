@@ -38,27 +38,80 @@ export default function AddSighting({ navigation, route }) {
         });
     };
 
+    const reset = () => {
+        setImages([]);
+        setTitle("");
+        setDescription("");
+        setDate(new Date());
+        setLocation({
+            latitude: 0,
+            longitude: 0,
+        });
+    }
+
+    const uploadImages = (id) => {
+        images.forEach(image => {
+            const putOptions = {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    image: image
+                })
+            };
+
+            fetch('http://192.168.1.27:8080/observation/' + id + '/upload', putOptions)
+                .catch((error) => {
+                    console.error("failed to upload images.")
+                    console.error(error);
+                })
+        });
+    }
+
+
     const postObservation = () => {
-        // TODO send images + get user
-        const requestOptions = {
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        const imagesName = images[0].split('/');
+        const imageName = imagesName[imagesName.length-1];
+
+        var formdata = new FormData();
+        formdata.append("observationDTO",
+            "{\n    \"author_pseudo\": \"" + route.params?.user.pseudo + "\",\n    \"campaign_id\": " + campaign.id + ",\n    \"taxonomyGroup\": \"" + category + "\",\n    \"title\": \"" + title + "\",\n    \"location\": {\n        \"longitude\": " + location.longitude + ",\n        \"latitude\": " + location.latitude + "\n    },\n    \"description\": \"" + description + "\"\n\n}");
+        formdata.append("image", imageName, images[0]);
+
+        let postOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                taxonomyGroup: category,
-                title: title,
-                description: description,
-                creationDate: date,
-                location: location,
-            })
+            headers: headers,
+            body: formdata,
+            redirect: 'follow'
         };
 
-        fetch('http://192.168.1.27:8080/create-observation', requestOptions)
-            .then(response => {
+        // const postOptions = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         observationDTO: {
+        //             author: route.params?.user.pseudo,
+        //             campaign_id: campaign.id,
+        //             taxonomyGroup: category,
+        //             title: title,
+        //             description: description,
+        //             location: location,
+        //             creationDate: date,
+        //         },
+        //         image: images[0]
+        //     })
+        // };
+
+        fetch('http://192.168.1.27:8080/observation/create', postOptions)
+            .then(response => response.json())
+            .then(json => {
+                uploadImages(json.id);
                 navigation.navigate('SigthingAdded', {
-                    creation: (response.status % 100 == 2),
+                    creation: true,
                     navigation: navigation,
                 });
-
             })
             .catch((error) => {
                 console.error(error);
@@ -90,7 +143,10 @@ export default function AddSighting({ navigation, route }) {
                     || !campaign || category == "") {
                     Alert.alert('Missing Fields', 'Observation could not be created. Please make sure all the fields are correctly filled.');
                 }
-                else postObservation();
+                else {
+                    // reset();
+                    postObservation();
+                }
             });
 
             return unsubscribe;
@@ -103,7 +159,7 @@ export default function AddSighting({ navigation, route }) {
         });
 
         fetchCampaigns();
-    })
+    }, [])
 
     React.useEffect(() => {
         (async () => {
@@ -124,7 +180,7 @@ export default function AddSighting({ navigation, route }) {
                     longitude: userLocation.coords.longitude,
                 });
         })();
-    })
+    }, [])
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
