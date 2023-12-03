@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
-
+import { auth } from '../../firebase'
 import NavigationTitle from '../../components/NavigationTitle';
 
 export default function Account({ navigation, route }) {
@@ -14,7 +14,15 @@ export default function Account({ navigation, route }) {
             headerTitle: () => <NavigationTitle title={"Account"} />,
         });
     })
-
+	const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login")
+      })
+      .catch(error => alert(error.message))
+  }
+  
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -49,12 +57,20 @@ export default function Account({ navigation, route }) {
 
                 <View style={styles.container}>
                     <View>
-                        <Text style={{ marginBottom: 5 }}>Username</Text>
+                        <Text style={{ marginBottom: 5 }}>{auth.currentUser?.email}</Text>
                     </View>
 
                     <View>
                         <Text style={{ marginBottom: 5 }}>Change Password</Text>
                     </View>
+					
+					<TouchableOpacity
+        onPress={handleSignOut}
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Sign out</Text>
+      </TouchableOpacity>
+					
                 </View>
             </View>
         </View>
