@@ -15,9 +15,11 @@
     "@react-navigation/bottom-tabs": "^6.5.9",
     "@react-navigation/material-bottom-tabs": "^6.2.17",
     "@react-navigation/native-stack": "^6.9.14",
+    "axios": "^1.6.2",
     "expo": "^49.0.21",
     "expo-image-picker": "~14.3.2",
     "expo-location": "~16.1.0",
+    "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -36,8 +38,7 @@
     "react-native-view-more-text": "^2.2.0",
     "react-native-web": "~0.19.6",
     "react-style-proptype": "^3.2.2",
-    "semantic-ui-react": "^2.1.4",
-    "expo-splash-screen": "~0.20.5"
+    "semantic-ui-react": "^2.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

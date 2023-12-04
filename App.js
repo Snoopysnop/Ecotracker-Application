@@ -1,16 +1,14 @@
-import * as SplashScreen from 'expo-splash-screen';
 import TestFetchServer from './TestFetchServer';
 import TestPostServer from './TestPostServer';
 import { View } from 'react-native';
+import BetterTestPostServer from './BetterTestPostServer';
 
 export default function App() {
-  SplashScreen.preventAutoHideAsync();
-  setTimeout(SplashScreen.hideAsync, 2000);
-
   return (
-    <View>
+    <View style={{ marginTop: 200 }}>
       {/* <TestFetchServer /> */}
-      <TestPostServer />
+      {/* <TestPostServer /> */}
+      <BetterTestPostServer />
     </View>
   );
 }
