@@ -5,7 +5,8 @@ import SearchBar from '../../components/SearchBar';
 import NavigationTitle from '../../components/NavigationTitle';
 import HomeTabView from './HomeTabView';
 
-import { exampleCampaignsData, exampleObservationsData } from '../TemporaryData';
+import { ipAddress } from '../../config';
+
 
 export default function Home({ navigation, route }) {
     const [isLoading, setIsLoading] = React.useState(true);
@@ -17,7 +18,7 @@ export default function Home({ navigation, route }) {
     const [firstTab, setFirstTab] = React.useState(true);
 
     const fetchMyCampaigns = () => {
-        fetch('http://192.168.1.27:8080/user/' + route.params?.user.pseudo + '/campaigns')
+        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user.pseudo + '/campaigns')
             .then(response => response.json())
             .then(json => {
                 setMyCampaigns(json);
@@ -31,7 +32,7 @@ export default function Home({ navigation, route }) {
     }
 
     const fetchMyObservations = () => {
-        fetch('http://192.168.1.27:8080/user/' + route.params?.user.pseudo + '/observations')
+        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user.pseudo + '/observations')
             .then((response) => response.json())
             .then((json) => {
                 setMyObservations(json);
@@ -56,13 +57,6 @@ export default function Home({ navigation, route }) {
         setIsLoading(true);
         fetchMyCampaigns();
         fetchMyObservations();
-
-        // TODO remove when fetching works
-        // setMyCampaigns(exampleCampaignsData);
-        // setMyCampaignsFiltered(exampleCampaignsData);
-        // setMyObservations(exampleObservationsData);
-        // setMyObservationsFiltered(exampleObservationsData);
-        // setIsLoading(false);
     }, [])
 
     const homeView = (

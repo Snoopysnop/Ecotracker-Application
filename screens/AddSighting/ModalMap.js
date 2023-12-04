@@ -42,10 +42,12 @@ export default function ModalMap({ modalMapVisible, setModalMapVisible, location
                             <Pressable
                                 style={styles.button}
                                 onPress={() => {
-                                    setLocation({
-                                        latitude: region.latitude,
-                                        longitude: region.longitude,
-                                    })
+                                    if (region) {
+                                        setLocation({
+                                            latitude: region.latitude,
+                                            longitude: region.longitude,
+                                        })
+                                    }
                                     setModalMapVisible(!modalMapVisible)
                                 }}>
                                 <Text style={styles.textStyle}>Set Location</Text>

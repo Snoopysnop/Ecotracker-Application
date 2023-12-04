@@ -15,7 +15,7 @@ export default function App() {
   }
 
   SplashScreen.preventAutoHideAsync();
-  setTimeout(SplashScreen.hideAsync, 5000);
+  setTimeout(SplashScreen.hideAsync, 2000);
 
   return (
     <NavigationContainer>

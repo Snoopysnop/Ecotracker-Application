@@ -7,6 +7,9 @@ import CustomTabView from './ObservationTabView';
 
 import { exampleComments } from '../../TemporaryData';
 
+import { ipAddress } from '../../../config';
+
+
 export default function Observation({ navigation, route }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
@@ -15,7 +18,7 @@ export default function Observation({ navigation, route }) {
     const observation = route.params?.observationData;
 
     const fetchComments = () => {
-        fetch('http://192.168.1.27:8080/observation/' + route.params?.id + '/comments')
+        fetch('http://' + ipAddress + ':8080/observation/' + route.params?.id + '/comments')
             .then((response) => response.json())
             .then(json => {
                 setComments(json);
