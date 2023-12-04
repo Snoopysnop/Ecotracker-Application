@@ -7,7 +7,7 @@ export default function CommentInput({ parentID, user, reply, setReplyInputOpen 
     const postComment = () => {
         // TODO implement post comment
         let newComment = {
-            author: user.pseudo,
+            author: user,
             comment: comment,
             parentID: parentID,
         }

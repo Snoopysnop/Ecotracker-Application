@@ -81,7 +81,7 @@ export default function AddSighting({ navigation, route }) {
 
         var formdata = new FormData();
         formdata.append("observationDTO",
-            "{\n    \"author_pseudo\": \"" + route.params?.user.pseudo + "\",\n    \"campaign_id\": " + campaign.id + ",\n    \"taxonomyGroup\": \"" + category + "\",\n    \"title\": \"" + title + "\",\n    \"location\": {\n        \"longitude\": " + location.longitude + ",\n        \"latitude\": " + location.latitude + "\n    },\n    \"description\": \"" + description + "\"\n\n}");
+            "{\n    \"author_pseudo\": \"" + route.params?.user + "\",\n    \"campaign_id\": " + campaign.id + ",\n    \"taxonomyGroup\": \"" + category + "\",\n    \"title\": \"" + title + "\",\n    \"location\": {\n        \"longitude\": " + location.longitude + ",\n        \"latitude\": " + location.latitude + "\n    },\n    \"description\": \"" + description + "\"\n\n}");
         formdata.append("image", imageName, images[0]);
 
         let postOptions = {

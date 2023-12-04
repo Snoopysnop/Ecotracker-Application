@@ -18,7 +18,8 @@ export default function Home({ navigation, route }) {
     const [firstTab, setFirstTab] = React.useState(true);
 
     const fetchMyCampaigns = () => {
-        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user.pseudo + '/campaigns')
+        console.log(route.params?.user);
+        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user + '/campaigns')
             .then(response => response.json())
             .then(json => {
                 setMyCampaigns(json);
@@ -32,7 +33,7 @@ export default function Home({ navigation, route }) {
     }
 
     const fetchMyObservations = () => {
-        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user.pseudo + '/observations')
+        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user + '/observations')
             .then((response) => response.json())
             .then((json) => {
                 setMyObservations(json);

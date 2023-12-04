@@ -30,10 +30,9 @@ const CustomTabBarButton = ({ children, onPress }) => (
     </Pressable>
 );
 
-export default function Tabs() {
-	const navigation = useNavigation()
-}
-export default function Tabs({ user }) {
+export default function Tabs({ route, navigation }) {
+    // const navigation = useNavigation()
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -58,7 +57,7 @@ export default function Tabs({ user }) {
                 }
             })}
         >
-            <Tab.Screen name='HomeNavigation' component={HomeNavigation} initialParams={{ user: user }} options={{
+            <Tab.Screen name='HomeNavigation' component={HomeNavigation} initialParams={{ user: route.params?.user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -76,7 +75,7 @@ export default function Tabs({ user }) {
                 )
             }} />
 
-            <Tab.Screen name='ListExploreNavigation' component={ListExploreNavigation} initialParams={{ user: user }} options={{
+            <Tab.Screen name='ListExploreNavigation' component={ListExploreNavigation} initialParams={{ user: route.params?.user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -94,7 +93,7 @@ export default function Tabs({ user }) {
                 )
             }} />
 
-            <Tab.Screen name='Add Sighting' component={AddSighting} initialParams={{ user: user }} options={{
+            <Tab.Screen name='Add Sighting' component={AddSighting} initialParams={{ user: route.params?.user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <Image
                         source={focused ?
@@ -112,7 +111,7 @@ export default function Tabs({ user }) {
                 )
             }} />
 
-            <Tab.Screen name='MapExploreNavigation' component={MapExploreNavigation} initialParams={{ user: user }} options={{
+            <Tab.Screen name='MapExploreNavigation' component={MapExploreNavigation} initialParams={{ user: route.params?.user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -130,7 +129,7 @@ export default function Tabs({ user }) {
                 )
             }} />
 
-            <Tab.Screen name='Account' component={Account} initialParams={{ user: user }} options={{
+            <Tab.Screen name='Account' component={Account} initialParams={{ user: route.params?.user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}

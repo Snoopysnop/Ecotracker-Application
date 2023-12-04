@@ -43,7 +43,7 @@ export default function Account({ navigation, route }) {
             <TouchableOpacity onPress={pickImage}>
                 <View style={styles.profilePictureContainer}>
                     <Image
-                        src={user.profilePicture}
+                        // src={user.profilePicture}
                         style={styles.profilePicture}
                     />
                     <Image

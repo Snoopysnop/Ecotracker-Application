@@ -3,7 +3,6 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './NavigationMenu';
-import React from 'react';
 
 import LoginScreen from './screens/LoginScreen';
 import Register from './screens/Home/Register';
@@ -28,10 +27,9 @@ export default function App() {
 
       <Stack.Navigator>
 		<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen}/>
-		<Stack.Screen options={{ headerShown: false }} name="Tabs" component={Tabs} />
+		<Stack.Screen options={{ headerShown: false }} name="Tabs" component={Tabs} initialParams={{user: user}}/>
     <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
 	</Stack.Navigator>
-      <Tabs user={user}></Tabs>
     </NavigationContainer>
   );
 }

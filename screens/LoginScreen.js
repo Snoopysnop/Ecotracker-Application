@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
 const LoginScreen = () => {
-	 const [email, setEmail] = useState('')
-	 const [password, setPassword] = useState('')
-	
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-	const navigation = useNavigation()
 
-	
-	 const handleSignUp = () => {
+  const navigation = useNavigation()
+
+
+  const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
@@ -18,33 +18,38 @@ const LoginScreen = () => {
         console.log('Registered with:', user.email);
       })
       .catch(error => alert(error.message))
-       navigation.replace("Register")
+    navigation.replace("Register")
   }
-	
-	
-	const handleLogin = () => {
+
+
+  const handleLogin = async () => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
+        navigation.replace("Tabs", {
+          user: user.displayName,
+        })
       })
       .catch(error => alert(error.message))
-      navigation.replace("Tabs")
+    // await new Promise (r=> setTimeout(r,500));
+    // console.log("User ", auth.currentUser)
+
   }
-	
-	
-	return (
-		 <View
+
+
+  return (
+    <View
       style={styles.container}
     >
-	
-	  <View style={styles.headerContainer}>
+
+      <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Bienvenu sur EcoTracker</Text>
       </View>
-	  
+
       <View style={styles.inputContainer}>
-		
+
         <TextInput
           placeholder="Email"
           value={email}
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '80%'
   },
-   headerContainer: {
+  headerContainer: {
     marginBottom: 20, // Ajout d'une marge en bas pour séparer du TextInput
   },
   headerText: {
