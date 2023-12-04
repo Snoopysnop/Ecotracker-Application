@@ -1,37 +1,18 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { auth } from '../firebase'
-const LoginScreen = () => {
-	 const [email, setEmail] = useState('')
-	 const [password, setPassword] = useState('')
-	
+import { auth } from '../../firebase'
 
+const LoginScreen = () => {
+    const [pseudo, setPseudo] = useState('')
 	const navigation = useNavigation()
 
-	
-	 const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Registered with:', user.email);
-      })
-      .catch(error => alert(error.message))
-       navigation.replace("Register")
+
+	const handleRegister = () => {
+    auth.currentUser.updateProfile({displayName: pseudo})
+    navigation.replace("Tabs")
   }
 	
-	
-	const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-      })
-      .catch(error => alert(error.message))
-      navigation.replace("Tabs")
-  }
 	
 	
 	return (
@@ -40,38 +21,24 @@ const LoginScreen = () => {
     >
 	
 	  <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Bienvenu sur Echotracker</Text>
-		<Text style={styles.headerText2}>Traque les milf les plus HOT</Text>
-		<Text style={styles.headerText2}>autour de toi !</Text>
+        <Text style={styles.headerText}>Rentre ton pseudo</Text>
+		<Text style={styles.headerText2}>Afin de draguer des femmes</Text>
+		<Text style={styles.headerText2}>en tout anonyma !</Text>
       </View>
 	  
       <View style={styles.inputContainer}>
 		
         <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={text => setEmail(text)}
+          placeholder="Pseudo"
+          value={pseudo}
+          onChangeText={text => setPseudo(text)}
           style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-          autoCapitalize="none"
         />
       </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={handleRegister}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>Register</Text>

@@ -61,7 +61,7 @@ export default function Account({ navigation, route }) {
                     </View>
 
                     <View>
-                        <Text style={{ marginBottom: 5 }}>Change Password</Text>
+                        <Text style={{ marginBottom: 5 }}>Pseudo : {auth.currentUser.displayName}</Text>
                     </View>
 					
 					<TouchableOpacity
