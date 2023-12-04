@@ -9,7 +9,7 @@ export default function App() {
 
   return (
     <View>
-      <TestFetchServer />
+      {/* <TestFetchServer /> */}
       <TestPostServer />
     </View>
   );
