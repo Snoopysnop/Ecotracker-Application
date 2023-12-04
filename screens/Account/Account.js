@@ -13,15 +13,15 @@ export default function Account({ navigation, route }) {
             headerTitle: () => <NavigationTitle title={"Account"} />,
         });
     })
-	const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("Login")
-      })
-      .catch(error => alert(error.message))
-  }
-  
+    const handleSignOut = () => {
+        auth
+            .signOut()
+            .then(() => {
+                navigation.replace("Login")
+            })
+            .catch(error => alert(error.message))
+    }
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -64,14 +64,6 @@ export default function Account({ navigation, route }) {
                         <Text>Name</Text>
                         <Text style={styles.info}>{user.userName}</Text>
                     </View>
-					
-					<TouchableOpacity
-        onPress={handleSignOut}
-        style={styles.button}
-      >
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
-					
                 </View>
 
                 <View style={styles.container}>
@@ -81,22 +73,13 @@ export default function Account({ navigation, route }) {
                     </View>
                 </View>
 
-                <TouchableOpacity onPress={() => console.log("TODO handle log out")}>
-                    <Text style={{
-                        color: '#2E9A99',
-                        borderColor: '#2E9A99',
-                        ...styles.button
-                    }}
-                    >Log Out</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => console.log("TODO handle delete account")}>
+                <TouchableOpacity onPress={handleSignOut}>
                     <Text style={{
                         color: '#C93838',
                         borderColor: '#C93838',
                         ...styles.button
                     }}
-                    >Delete Account</Text>
+                    >Sign Out</Text>
                 </TouchableOpacity>
             </View>
         </View>
