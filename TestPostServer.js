@@ -23,7 +23,7 @@ export default function TestPostServer() {
         longitude: 0,
     };
 
-    const campaignID = 0;
+    const campaignID = 355;
     const category = "Insects";
 
     const pseudo = "Srall";
@@ -31,16 +31,13 @@ export default function TestPostServer() {
     const uploadImages = (id) => {
         images.slice(1).forEach(image => {
             var headers = new Headers();
-            headers.append("Content-Type", "application/json");
 
             var formdata = new FormData();
             formdata.append("image", { uri: image.uri, name: image.name, type: image.type })
 
             let putOptions = {
                 method: 'PUT',
-                headers: headers,
-                body: formdata,
-                redirect: 'follow'
+                body: formdata
             };
 
             fetch('http://localhost:8080/observation/' + id + '/upload', putOptions)
@@ -52,19 +49,26 @@ export default function TestPostServer() {
     }
 
     const postObservation = () => {
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
 
         var formdata = new FormData();
-        formdata.append("observationDTO",
-            "{\n    \"author_pseudo\": \"" + pseudo + "\",\n    \"campaign_id\": " + campaignID + ",\n    \"taxonomyGroup\": \"" + category + "\",\n    \"title\": \"" + title + "\",\n    \"location\": {\n        \"longitude\": " + location.longitude + ",\n        \"latitude\": " + location.latitude + "\n    },\n    \"description\": \"" + description + "\"\n\n}");
+        formdata.append("observationDTO", JSON.stringify({
+            "author": pseudo,
+            "campaign_id": campaignID,
+            "taxonomyGroup": category,
+            "title": title,
+            "coordinates": {
+                "longitude": location.longitude,
+                "latitude": location.latitude
+            },
+            "description": description,
+            "creationDate": "2023-07-08 12:04:54"
+        }));
+
         formdata.append("image", { uri: images[0].uri, name: images[0].name, type: images[0].type })
 
         let postOptions = {
             method: 'POST',
-            headers: headers,
             body: formdata,
-            redirect: 'follow'
         };
 
         fetch('http://localhost:8080/observation/create', postOptions)
