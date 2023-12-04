@@ -1,18 +1,16 @@
-import { NavigationContainer } from '@react-navigation/native';
-
-// import Tabs from './NavigationMenu';
-
 import * as SplashScreen from 'expo-splash-screen';
-import TestServer from './TestServer';
+import TestFetchServer from './TestFetchServer';
+import TestPostServer from './TestPostServer';
+import { View } from 'react-native';
 
 export default function App() {
- SplashScreen.preventAutoHideAsync();
+  SplashScreen.preventAutoHideAsync();
   setTimeout(SplashScreen.hideAsync, 2000);
 
   return (
-    // <NavigationContainer>
-    //   <Tabs></Tabs>
-    // </NavigationContainer>
-    <TestServer/>
+    <View>
+      <TestFetchServer />
+      <TestPostServer />
+    </View>
   );
 }
