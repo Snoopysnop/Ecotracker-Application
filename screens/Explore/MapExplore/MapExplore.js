@@ -7,6 +7,9 @@ import * as Location from 'expo-location';
 
 import NavigationTitle from '../../../components/NavigationTitle';
 
+import { ipAddress } from '../../../config';
+
+
 export default function MapExplore({ navigation, route }) {
     const [error, setError] = React.useState(false);
     const [location, setLocation] = React.useState();
@@ -14,7 +17,7 @@ export default function MapExplore({ navigation, route }) {
     const [campaigns, setCampaigns] = React.useState([]);
 
     const fetchCampaigns = () => {
-        fetch('http://192.168.1.27:8080/campaigns')
+        fetch('http://' + ipAddress + ':8080/campaigns')
             .then(response => response.json())
             .then(json => {
                 setCampaigns(json);
@@ -58,7 +61,7 @@ export default function MapExplore({ navigation, route }) {
             });
             setIsLoading(false);
         })();
-    })
+    }, [])
 
     return (
         <View>

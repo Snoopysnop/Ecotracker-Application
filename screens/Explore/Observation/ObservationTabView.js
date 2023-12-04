@@ -8,7 +8,7 @@ import { Marker } from 'react-native-maps';
 import ViewMore from '../../../components/ViewMore';
 import CommentSection from '../../../components/CommentSection/CommentSection';
 
-export default function CustomTabView({ observation, comments }) {
+export default function CustomTabView({ observation, comments, route }) {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);
@@ -70,8 +70,8 @@ export default function CustomTabView({ observation, comments }) {
       <Text style={{
         marginBottom: 10,
         ...styles.title
-      }}>Comments ({getCommentsLength(comments)})</Text>
-      <CommentSection comments={comments} />
+      }}>Comments ({comments ? getCommentsLength(comments) : 0})</Text>
+      <CommentSection comments={comments ? comments : []} route={route} />
     </ScrollView>
   )
 

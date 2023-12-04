@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, View, Text, useWindowDimensions } from 'react-native';
+import { ScrollView, View, Text, useWindowDimensions } from 'react-native';
 
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
@@ -16,21 +16,24 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
   ]);
 
   const firstView = () => (
-    <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 115 }}>
-      {observations.length ?
-        <ObservationImageList observations={observations} navigation={navigation} route={route} /> :
-        <NoResult message={'Observations' + observations.length} />
-      }
-    </ScrollView>
+    observations.length ?
+      <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 115 }}>
+        <ObservationImageList observations={observations} navigation={navigation} route={route} />
+      </ScrollView> :
+      <View style={{ paddingBottom: 115 }}>
+        <NoResult message='Observations' />
+      </View>
+
   )
 
   const secondView = () => (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      {campaigns.length ?
-        <CampaignImageList campaigns={campaigns} navigation={navigation} route={route} /> :
+    campaigns.length ?
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <CampaignImageList campaigns={campaigns} navigation={navigation} route={route} />
+      </ScrollView> :
+      <View style={{ paddingBottom: 115 }}>
         <NoResult message='Campaigns' />
-      }
-    </ScrollView>
+      </View>
   )
 
   const renderScene = SceneMap({

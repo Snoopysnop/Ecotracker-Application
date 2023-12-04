@@ -223,6 +223,7 @@ export const exampleComments = [
     {
         id: 1,
         author: "Matt",
+        profilePicture: "https://react.semantic-ui.com/images/avatar/small/matt.jpg",
         content: "How pretty!",
         date: "2023-10-04T12:04:54.977603876",
         replies: []
@@ -230,18 +231,21 @@ export const exampleComments = [
     {
         id: 2,
         author: "Elliot Fu",
+        profilePicture: "https://react.semantic-ui.com/images/avatar/small/elliot.jpg",
         content: "This has been very useful for my research. Thanks!",
         date: "2023-11-19T07:04:54.977603876",
         replies: [
             {
                 id: 3,
                 author: "Jenny Hess",
+                profilePicture: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg",
                 content: "Elliot you are always so right :)",
                 date: "2023-11-20T07:04:54.977603876",
             },
             {
                 id: 4,
                 author: "Elliot Fu",
+                profilePicture: "https://react.semantic-ui.com/images/avatar/small/elliot.jpg",
                 content: "Ahah thank you!",
                 date: "2023-11-20T08:09:54.977603876",
             },
@@ -250,6 +254,7 @@ export const exampleComments = [
     {
         id: 5,
         author: "Joe Henderson",
+        profilePicture: "https://react.semantic-ui.com/images/avatar/small/joe.jpg",
         content: "Dude, this is awesome. I can't believe you manage to capture a photo of it!",
         date: "2023-11-20T08:04:54.977603876",
         replies: []

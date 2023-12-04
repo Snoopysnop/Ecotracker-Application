@@ -5,21 +5,18 @@ import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
 // TODO retrieve author information
-export default function Comment({ comment, reply }) {
+export default function Comment({ comment, reply, user }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
-
-  // TODO replace with true information
-  const userConnected = false;
 
   return (
     <View style={{ paddingLeft: (reply ? 50 : 0), ...styles.commentContainer }}>
       <Image
-        src='https://react.semantic-ui.com/images/avatar/small/jenny.jpg'
+        src={comment.profilePicture}
         style={styles.avatar}
       />
       <View style={styles.content}>
         <View style={styles.nameAndDate}>
-          <Text as='a' style={styles.author}>{comment.author}</Text>
+          <Text style={styles.author}>{comment.author}</Text>
           <Text style={styles.date}> {timeAgo(new Date(comment.date).getTime())} </Text>
         </View>
         <View>
@@ -28,10 +25,10 @@ export default function Comment({ comment, reply }) {
         <TouchableOpacity onPress={() => setReplyInputOpen(!replyInputOpen)}>
           <Text style={styles.replyAction}>Reply</Text>
         </TouchableOpacity>
-        {replyInputOpen && (userConnected ?
+        {replyInputOpen && (user ?
           <CommentInput
+            user={user}
             reply={true}
-            avatarImg='https://react.semantic-ui.com/images/avatar/small/elliot.jpg'
             setReplyInputOpen={setReplyInputOpen}
             parentID={comment.id} /> :
           <NotConnected />

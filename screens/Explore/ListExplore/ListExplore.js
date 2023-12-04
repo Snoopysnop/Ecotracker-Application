@@ -7,6 +7,9 @@ import SearchBar from '../../../components/SearchBar';
 import IconFilter from '../../../components/IconFilter/IconFilter';
 import NoResult from '../../../components/NoResult';
 
+import { ipAddress } from '../../../config';
+
+
 export default function ListExplore({ navigation, route }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
@@ -16,7 +19,7 @@ export default function ListExplore({ navigation, route }) {
     const [filteredCampaigns, setFilteredCampaigns] = React.useState([]);
 
     const fetchCampaigns = () => {
-        fetch('http://192.168.1.27:8080/campaigns')
+        fetch('http://' + ipAddress + ':8080/campaigns')
             .then(response => response.json())
             .then(json => {
                 setCampaigns(json);

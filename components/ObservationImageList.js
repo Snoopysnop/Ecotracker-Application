@@ -13,13 +13,12 @@ export default function ObservationImageList({ navigation, observations, route }
                             observationData: observation,
                             navigation: navigation,
                             route: route,
-                            ID: 0,
+                            id: index,
                         })}
                     >
-
                         <View style={[styles.centerElement, { width: 75 }]}>
                             <Image
-                                // source={require("../assets/" + observation.imageList[0])}
+                                source={{ uri: observation.imageList[0] }}
                                 style={styles.image}
                             />
                         </View>

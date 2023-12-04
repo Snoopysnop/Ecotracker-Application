@@ -32,6 +32,8 @@ const CustomTabBarButton = ({ children, onPress }) => (
 
 export default function Tabs() {
 	const navigation = useNavigation()
+}
+export default function Tabs({ user }) {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -56,7 +58,7 @@ export default function Tabs() {
                 }
             })}
         >
-            <Tab.Screen name='HomeNavigation' component={HomeNavigation} options={{
+            <Tab.Screen name='HomeNavigation' component={HomeNavigation} initialParams={{ user: user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -74,7 +76,7 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='ListExploreNavigation' component={ListExploreNavigation} options={{
+            <Tab.Screen name='ListExploreNavigation' component={ListExploreNavigation} initialParams={{ user: user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -92,7 +94,7 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Add Sighting' component={AddSighting} options={{
+            <Tab.Screen name='Add Sighting' component={AddSighting} initialParams={{ user: user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <Image
                         source={focused ?
@@ -110,7 +112,7 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='MapExploreNavigation' component={MapExploreNavigation} options={{
+            <Tab.Screen name='MapExploreNavigation' component={MapExploreNavigation} initialParams={{ user: user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -128,7 +130,7 @@ export default function Tabs() {
                 )
             }} />
 
-            <Tab.Screen name='Account' component={Account} options={{
+            <Tab.Screen name='Account' component={Account} initialParams={{ user: user }} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}

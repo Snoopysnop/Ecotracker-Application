@@ -6,6 +6,9 @@ import ObservationImageList from '../../../components/ObservationImageList';
 import ViewMore from '../../../components/ViewMore';
 import CampaignMap from './CampaignMap';
 
+import { ipAddress } from '../../../config';
+
+
 export default function Campaign({ navigation, route }) {
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState(false);
@@ -13,7 +16,7 @@ export default function Campaign({ navigation, route }) {
     const [campaign, setCampaign] = React.useState('');
 
     const fetchObservations = () => {
-        fetch('http://192.168.1.27:8080/campaign/' + route.params?.ID + '/observations')
+        fetch('http://' + ipAddress + ':8080/campaign/' + route.params?.ID + '/observations')
             .then(response => response.json())
             .then(json => setObservations(json))
             .catch((error) => {

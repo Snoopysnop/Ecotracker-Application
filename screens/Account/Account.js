@@ -6,8 +6,7 @@ import { auth } from '../../firebase'
 import NavigationTitle from '../../components/NavigationTitle';
 
 export default function Account({ navigation, route }) {
-    // TODO retrieve user's profile picture
-    const [image, setImage] = React.useState('https://react.semantic-ui.com/images/avatar/small/jenny.jpg');
+    const user = route.params?.user;
 
     React.useEffect(() => {
         navigation.setOptions({
@@ -25,43 +24,45 @@ export default function Account({ navigation, route }) {
   
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [1, 1],
-          quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
         });
-        
+
         if (!result.canceled) {
-          setImage(result.assets[0].uri);
+            setImage(result.assets[0].uri);
         }
-      };
+    };
 
     return (
         <View style={{
             height: '100%',
             width: '100%',
         }}>
-            <View styles={styles.view}>
-                <TouchableOpacity onPress={pickImage}>
-                    <View style={styles.profilePictureContainer}>
-                        <Image
-                            src={image}
-                            style={styles.profilePicture}
-                        />
-                        <Image
-                            style={styles.editIcon}
-                            source={require("../../assets/icons/edit.png")}
-                        />
-                    </View>
-                </TouchableOpacity>
+            <TouchableOpacity onPress={pickImage}>
+                <View style={styles.profilePictureContainer}>
+                    <Image
+                        src={user.profilePicture}
+                        style={styles.profilePicture}
+                    />
+                    <Image
+                        style={styles.editIcon}
+                        source={require("../../assets/icons/edit.png")}
+                    />
+                </View>
+            </TouchableOpacity>
 
+            <View style={styles.view}>
                 <View style={styles.container}>
-                    <View>
-                        <Text style={{ marginBottom: 5 }}>{auth.currentUser?.email}</Text>
+                    <View style={styles.textContainer}>
+                        <Text>Pseudo</Text>
+                        <Text style={styles.info}>{auth.currentUser.displayName}</Text>
                     </View>
 
-                    <View>
-                        <Text style={{ marginBottom: 5 }}>Pseudo : {auth.currentUser.displayName}</Text>
+                    <View style={styles.textContainer}>
+                        <Text>Name</Text>
+                        <Text style={styles.info}>{user.userName}</Text>
                     </View>
 					
 					<TouchableOpacity
@@ -72,6 +73,31 @@ export default function Account({ navigation, route }) {
       </TouchableOpacity>
 					
                 </View>
+
+                <View style={styles.container}>
+                    <View style={styles.textContainer}>
+                        <Text>Creation Date</Text>
+                        <Text style={styles.info}>{new Date(user.creationDate).toLocaleDateString()}</Text>
+                    </View>
+                </View>
+
+                <TouchableOpacity onPress={() => console.log("TODO handle log out")}>
+                    <Text style={{
+                        color: '#2E9A99',
+                        borderColor: '#2E9A99',
+                        ...styles.button
+                    }}
+                    >Log Out</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => console.log("TODO handle delete account")}>
+                    <Text style={{
+                        color: '#C93838',
+                        borderColor: '#C93838',
+                        ...styles.button
+                    }}
+                    >Delete Account</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -79,8 +105,24 @@ export default function Account({ navigation, route }) {
 
 const styles = StyleSheet.create({
     view: {
-        margin: 20,
+        marginHorizontal: 20,
         marginBottom: 100,
+        gap: 20,
+        height: '100%',
+    },
+    container: {
+        borderRadius: 10,
+        width: '100%',
+        backgroundColor: '#fff',
+        padding: 20,
+        gap: 10,
+    },
+    textContainer: {
+        flexDirection: 'row',
+        gap: 10,
+    },
+    info: {
+        color: '#bbb',
     },
     profilePictureContainer: {
         justifyContent: 'center',
@@ -99,10 +141,15 @@ const styles = StyleSheet.create({
         bottom: 25,
         left: 25,
     },
-    container: {
-        width: '100%',
-        backgroundColor: '#fff',
-        padding: 20,
-        gap: 20,
+    button: {
+
+        alignContent: 'flex-end',
+        borderWidth: 2,
+        borderRadius: 10,
+        paddingBottom: 10,
+        paddingTop: 12,
+        paddingHorizontal: 20,
+        fontWeight: '600',
+        textAlign: 'center'
     },
 })  

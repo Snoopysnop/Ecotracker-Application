@@ -8,7 +8,7 @@ export default function SigthingAdded({ navigation, creation }) {
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Observation Creation"} />,
         });
-    })
+    }, [])
 
     return (
         (creation ?
