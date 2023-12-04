@@ -40,9 +40,7 @@ const LoginScreen = () => {
     >
 	
 	  <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Bienvenu sur Echotracker</Text>
-		<Text style={styles.headerText2}>Traque les milf les plus HOT</Text>
-		<Text style={styles.headerText2}>autour de toi !</Text>
+        <Text style={styles.headerText}>Bienvenu sur EcoTracker</Text>
       </View>
 	  
       <View style={styles.inputContainer}>
