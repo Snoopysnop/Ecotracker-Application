@@ -5,7 +5,7 @@ import Comment from './Comment';
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
-export default function CommentSection({ route, comments }) {
+export default function CommentSection({ route, comments, reload, setReload, observationID }) {
     const user = route.params?.user;
 
     const noComments = (
@@ -14,6 +14,9 @@ export default function CommentSection({ route, comments }) {
                 <CommentInput
                     reply={false}
                     user={user}
+                    observationID={observationID}
+                    reload={reload}
+                    setReload={setReload}
                 /> :
                 <NotConnected />
             }
@@ -27,13 +30,23 @@ export default function CommentSection({ route, comments }) {
                 <CommentInput
                     reply={false}
                     user={user}
+                    reload={reload}
+                    setReload={setReload}
+                    observationID={observationID}
                 /> :
                 <NotConnected />
             }
             {
                 comments?.map((comment, indexComment) => (
                     <View key={"comment" + indexComment}>
-                        <Comment comment={comment} reply={false} user={user} />
+                        <Comment
+                            comment={comment}
+                            reply={false}
+                            user={user}
+                            reload={reload}
+                            setReload={setReload}
+                            observationID={observationID}
+                        />
                         {
                             comment.replies &&
                             <View>
@@ -43,6 +56,10 @@ export default function CommentSection({ route, comments }) {
                                         comment={replies}
                                         reply={true}
                                         user={user}
+                                        reload={reload}
+                                        setReload={setReload}
+                                        observationID={observationID}
+                                        parentCommentID={comment.id}
                                     />
                                 ))}
                             </View>

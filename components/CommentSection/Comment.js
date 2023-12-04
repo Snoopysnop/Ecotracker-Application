@@ -5,7 +5,7 @@ import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
 // TODO retrieve author information
-export default function Comment({ comment, reply, user }) {
+export default function Comment({ comment, reply, user, reload, setReload, parentCommentID }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
 
   return (
@@ -17,7 +17,7 @@ export default function Comment({ comment, reply, user }) {
       <View style={styles.content}>
         <View style={styles.nameAndDate}>
           <Text style={styles.author}>{comment.author}</Text>
-          <Text style={styles.date}> {timeAgo(new Date(comment.date).getTime())} </Text>
+          <Text style={styles.date}> {timeAgo(new Date(comment.creationDate).getTime())} </Text>
         </View>
         <View>
           <Text>{comment.content}</Text>
@@ -30,7 +30,10 @@ export default function Comment({ comment, reply, user }) {
             user={user}
             reply={true}
             setReplyInputOpen={setReplyInputOpen}
-            parentID={comment.id} /> :
+            parentCommentID={parentCommentID ? parentCommentID : comment.id}
+            reload={reload}
+            setReload={setReload}
+          /> :
           <NotConnected />
         )
         }

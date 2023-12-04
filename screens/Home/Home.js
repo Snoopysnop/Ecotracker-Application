@@ -18,7 +18,6 @@ export default function Home({ navigation, route }) {
     const [firstTab, setFirstTab] = React.useState(true);
 
     const fetchMyCampaigns = () => {
-        console.log(route.params?.user);
         fetch('http://' + ipAddress + ':8080/user/' + route.params?.user + '/campaigns')
             .then(response => response.json())
             .then(json => {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView, View, Text, useWindowDimensions, Image } from 'react-native';
+import { StyleSheet, ActivityIndicator, ScrollView, View, Text, useWindowDimensions, Image } from 'react-native';
 
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import MapView from 'react-native-maps';
@@ -7,9 +7,15 @@ import { Marker } from 'react-native-maps';
 
 import ViewMore from '../../../components/ViewMore';
 import CommentSection from '../../../components/CommentSection/CommentSection';
+import { ipAddress } from '../../../config';
 
-export default function CustomTabView({ observation, comments, route }) {
+export default function CustomTabView({ observation, route }) {
   const layout = useWindowDimensions();
+
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [error, setError] = React.useState(false);
+  const [comments, setComments] = React.useState([]);
+  const [reload, setReload] = React.useState(false);
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -29,6 +35,25 @@ export default function CustomTabView({ observation, comments, route }) {
       imageSource: require('../../../assets/icons/tabIcons/comment.png')
     },
   ]);
+
+  const fetchComments = () => {
+    fetch('http://' + ipAddress + ':8080/observation/' + observation.id + '/comments')
+      .then((response) => response.json())
+      .then(json => {
+        setComments(json);
+        setError(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setError(true);
+      })
+      .finally(() => setIsLoading(false));
+  }
+
+  React.useEffect(() => {
+    setIsLoading(true);
+    fetchComments();
+  }, [reload])
 
   const date = new Date(observation.creationDate).toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" });
   const FirstView = () => (
@@ -65,14 +90,27 @@ export default function CustomTabView({ observation, comments, route }) {
     </View>
   )
 
-  const ThirdView = () => (
-    <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
-      <Text style={{
-        marginBottom: 10,
-        ...styles.title
-      }}>Comments ({comments ? getCommentsLength(comments) : 0})</Text>
-      <CommentSection comments={comments ? comments : []} route={route} />
-    </ScrollView>
+  let ThirdView = () => (
+    isLoading ?
+      (<View style={styles.loading} >
+        <ActivityIndicator size="large" />
+      </View >) :
+      (error ?
+        <Text>Sorry, a problem occured. Please try again later.</Text> :
+        <ScrollView style={styles.view} showsVerticalScrollIndicator={false}>
+          <Text style={{
+            marginBottom: 10,
+            ...styles.title
+          }}>Comments ({comments ? getCommentsLength(comments) : 0})</Text>
+          <CommentSection
+            comments={comments}
+            route={route}
+            reload={reload}
+            setReload={setReload}
+            observationID={observation.id}
+          />
+        </ScrollView>
+      )
   )
 
   return (
@@ -110,10 +148,10 @@ export default function CustomTabView({ observation, comments, route }) {
 
 const getCommentsLength = (comments) => {
   let length = 0
-  comments.forEach(comment => {
+  comments?.forEach(comment => {
     length += comment.replies?.length
   });
-  return length + comments.length
+  return length + comments?.length
 }
 
 const styles = StyleSheet.create({
@@ -125,5 +163,11 @@ const styles = StyleSheet.create({
   },
   view: {
     marginBottom: 115,
-  }
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    height: '100%',
+    marginBottom: 100,
+  },
 })
