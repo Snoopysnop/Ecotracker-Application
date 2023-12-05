@@ -5,10 +5,7 @@ import { auth } from '../firebase'
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-
   const navigation = useNavigation()
-
 
   const handleSignUp = () => {
     auth
@@ -29,13 +26,12 @@ const LoginScreen = () => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
         navigation.replace("Tabs", {
-          user: user.displayName,
+          user: {pseudo:user.displayName,
+            creationDate:user.creationDate,
+          },
         })
       })
       .catch(error => alert(error.message))
-    // await new Promise (r=> setTimeout(r,500));
-    // console.log("User ", auth.currentUser)
-
   }
 
 

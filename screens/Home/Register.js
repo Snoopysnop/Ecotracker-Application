@@ -4,17 +4,30 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import { auth } from '../../firebase'
 
 const LoginScreen = () => {
-    const [pseudo, setPseudo] = useState('')
+  const [pseudo, setPseudo] = useState('')
 	const navigation = useNavigation()
 
 
 	const handleRegister = () => {
-    auth.currentUser.updateProfile({displayName: pseudo})
-    navigation.replace("Tabs")
+
+    auth.currentUser.updateProfile({displayName: pseudo}).then(() => {
+       //Creation date au moment du login
+      const currentDate = new Date();
+      const day = currentDate.getDate();
+      const month = currentDate.getMonth() + 1;
+      const year = currentDate.getFullYear();
+      const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+
+      navigation.replace("Tabs",{
+        user: {
+          pseudo:auth.currentUser.displayName,
+          creationDate:auth.currentUser.creationDate=formattedDate,
+          profilePicture:"https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+        },
+      })
+    });
   }
-	
-	
-	
+
 	return (
 		 <View
       style={styles.container}
@@ -23,7 +36,7 @@ const LoginScreen = () => {
 	  <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Rentre ton pseudo</Text>
 		<Text style={styles.headerText2}>Afin de draguer des femmes</Text>
-		<Text style={styles.headerText2}>en tout anonyma !</Text>
+		<Text style={styles.headerText2}>en tout anonyma ! héhéhhé mathis à pas vu ces texte issous</Text>
       </View>
 	  
       <View style={styles.inputContainer}>

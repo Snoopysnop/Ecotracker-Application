@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, StyleSheet, Image, Pressable } from 'react-native';
-import { useNavigation } from '@react-navigation/core'
 import Account from './screens/Account/Account';
 import AddSighting from './screens/AddSighting/AddSighting';
 import ListExploreNavigation from './screens/Explore/ListExplore/ListExploreNavigation';
 import MapExploreNavigation from './screens/Explore/MapExplore/MapExploreNavigation';
 import SigthingAdded from './screens/AddSighting/SightingAdded';
 import HomeNavigation from './screens/Home/HomeNavigation';
+import { useRoute } from '@react-navigation/native';
 
 
 const Tab = createBottomTabNavigator();
@@ -31,7 +31,13 @@ const CustomTabBarButton = ({ children, onPress }) => (
 );
 
 export default function Tabs({ route, navigation }) {
-    // const navigation = useNavigation()
+
+
+
+    const { user } = route.params;
+
+
+
 
     return (
         <Tab.Navigator

@@ -11,12 +11,11 @@ const Stack = createNativeStackNavigator();
 
 
 export default function App() {
-  // TODO retrieve user with KeyCloak
   const user = {
-    pseudo: 'Srall',
-    userName: 'Jenny Hess',
-    profilePicture: 'https://react.semantic-ui.com/images/avatar/small/jenny.jpg',
-    creationDate: '2023-12-03T10:58:32.078Z',
+    pseudo: '',
+    userName: '',
+    profilePicture: '',
+    creationDate: '',
   }
 
   SplashScreen.preventAutoHideAsync();
