@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Alert 
 import { useFocusEffect } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-
+import { auth } from '../../firebase'
 import DropdownSelect from '../../components/DropdownSelect';
 import ImagesPicker from '../../components/ImagesPicker/ImagesPicker';
 import ModalMap from './ModalMap';
@@ -81,7 +81,7 @@ export default function AddSighting({ navigation, route }) {
 
         var formdata = new FormData();
         formdata.append("observationDTO",
-            "{\n    \"author_pseudo\": \"" + route.params?.user + "\",\n    \"campaign_id\": " + campaign.id + ",\n    \"taxonomyGroup\": \"" + category + "\",\n    \"title\": \"" + title + "\",\n    \"location\": {\n        \"longitude\": " + location.longitude + ",\n        \"latitude\": " + location.latitude + "\n    },\n    \"description\": \"" + description + "\"\n\n}");
+            "{\n    \"author_pseudo\": \"" + auth.currentUser.displayName + "\",\n    \"campaign_id\": " + campaign.id + ",\n    \"taxonomyGroup\": \"" + category + "\",\n    \"title\": \"" + title + "\",\n    \"location\": {\n        \"longitude\": " + location.longitude + ",\n        \"latitude\": " + location.latitude + "\n    },\n    \"description\": \"" + description + "\"\n\n}");
         formdata.append("image", imageName, images[0]);
 
         let postOptions = {

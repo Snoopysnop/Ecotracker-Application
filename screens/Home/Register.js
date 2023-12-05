@@ -5,29 +5,29 @@ import { auth } from '../../firebase'
 
 const LoginScreen = () => {
   const [pseudo, setPseudo] = useState('')
-	const navigation = useNavigation()
+  const navigation = useNavigation()
 
 
-	const handleRegister = () => {
+  const handleRegister = () => {
     auth.currentUser.updateProfile({
       displayName: pseudo,
-      photoURL:"https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+      photoURL: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
     }).then(() => {
       navigation.replace("Tabs")
     });
   }
 
-	return (
-		 <View
+  return (
+    <View
       style={styles.container}
     >
-	
-	  <View style={styles.headerContainer}>
+
+      <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Rentre ton pseudo</Text>
       </View>
-	  
+
       <View style={styles.inputContainer}>
-		
+
         <TextInput
           placeholder="Pseudo"
           value={pseudo}
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '80%'
   },
-   headerContainer: {
+  headerContainer: {
     marginBottom: 20, // Ajout d'une marge en bas pour séparer du TextInput
   },
   headerText: {

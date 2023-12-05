@@ -55,7 +55,7 @@ export default function Tabs({ route }) {
                 }
             })}
         >
-            <Tab.Screen name='HomeNavigation' component={HomeNavigation} initialParams={{ user: route.params?.user }} options={{
+            <Tab.Screen name='HomeNavigation' component={HomeNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -73,7 +73,7 @@ export default function Tabs({ route }) {
                 )
             }} />
 
-            <Tab.Screen name='ListExploreNavigation' component={ListExploreNavigation} initialParams={{ user: route.params?.user }} options={{
+            <Tab.Screen name='ListExploreNavigation' component={ListExploreNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -91,7 +91,7 @@ export default function Tabs({ route }) {
                 )
             }} />
 
-            <Tab.Screen name='Add Sighting' component={AddSighting} initialParams={{ user: route.params?.user }} options={{
+            <Tab.Screen name='Add Sighting' component={AddSighting} options={{
                 tabBarIcon: ({ focused }) => (
                     <Image
                         source={focused ?
@@ -109,7 +109,7 @@ export default function Tabs({ route }) {
                 )
             }} />
 
-            <Tab.Screen name='MapExploreNavigation' component={MapExploreNavigation} initialParams={{ user: route.params?.user }} options={{
+            <Tab.Screen name='MapExploreNavigation' component={MapExploreNavigation} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
@@ -127,7 +127,7 @@ export default function Tabs({ route }) {
                 )
             }} />
 
-            <Tab.Screen name='Account' component={Account} initialParams={{ user: route.params?.user }} options={{
+            <Tab.Screen name='Account' component={Account} options={{
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}
