@@ -32,28 +32,42 @@ export default function BetterTestPostServer() {
 
         console.log("type", type);
 
-        const json = JSON.stringify({
-            author_pseudo: "Srall",
-            campaign_id: 0,
-            taxonomyGroup: "Insects",
-            title: "title",
-            location: {
-                latitude: 0,
-                longitude: 0,
+
+        var data = JSON.stringify({
+            "author": "Srall",
+            "campaign_id": 105,
+            "taxonomyGroup": "Insects",
+            "title": "title",
+            "coordinates": {
+                "longitude": 0,
+                "latitude": 0
             },
-            description: "description",
-            creationDate: new Date(),
+            "description": "description",
+            "creationDate": "2023-07-08 12:04:54"
         });
-        const blob = new Blob([json], {
-            type: 'application/json'
-        });
+
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        let postOptions = {
+            method: 'POST',
+            headers: headers,
+            body: data,
+        };
+
+        fetch('http://' + "192.168.43.73" + ':8080/observation/create', postOptions)
+                .then(response => console.log(response.status))
+                .catch((error) => {
+                    console.error(error);
+                })
+
 
         let formData = new FormData();
         // formData.append("observationDTO", blob);
-        formData.append("observationDTO", json);
+        // formData.append("observationDTO", json);
         formData.append('image', { uri: localUri, name: filename, type });
 
-        await axios.post('http://192.168.1.27:8080/observation/create', formData, {
+        await axios.put('http://192.168.43.73:8080/observation/302/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         }).then(res => {
             console.log("observation created");
