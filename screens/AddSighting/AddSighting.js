@@ -117,8 +117,7 @@ export default function AddSighting({ navigation, route }) {
         fetch('http://' + ipAddress + ':8080/observation/create', postOptions)
             .then(response => response.json())
             .then(json => {
-                console.log("observation created");
-                // uploadImages(json.id);
+                uploadImages(json.id);
                 navigation.navigate('SigthingAdded', {
                     creation: true,
                     navigation: navigation,
@@ -126,10 +125,10 @@ export default function AddSighting({ navigation, route }) {
             })
             .catch((error) => {
                 console.error(error);
-                // navigation.navigate('SigthingAdded', {
-                //     creation: false,
-                //     navigation: navigation,
-                // });
+                navigation.navigate('SigthingAdded', {
+                    creation: false,
+                    navigation: navigation,
+                });
             })
     }
 
