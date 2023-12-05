@@ -74,11 +74,7 @@ export default function Account({ navigation, route }) {
                 </View>
 
                 <TouchableOpacity onPress={handleSignOut}>
-                    <Text style={{
-                        color: '#C93838',
-                        borderColor: '#C93838',
-                        ...styles.button
-                    }}
+                    <Text style={styles.button}
                     >Sign Out</Text>
                 </TouchableOpacity>
             </View>
@@ -125,7 +121,8 @@ const styles = StyleSheet.create({
         left: 25,
     },
     button: {
-
+        color: '#C93838',
+        borderColor: '#C93838',
         alignContent: 'flex-end',
         borderWidth: 2,
         borderRadius: 10,
