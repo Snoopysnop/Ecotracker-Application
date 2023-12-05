@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase'
+import { ipAddress } from '../../config';
 
 const LoginScreen = () => {
   const [pseudo, setPseudo] = useState('')
@@ -9,12 +10,39 @@ const LoginScreen = () => {
 
 
   const handleRegister = () => {
-    auth.currentUser.updateProfile({
-      displayName: pseudo,
-      photoURL: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
-    }).then(() => {
-      navigation.replace("Tabs")
-    });
+    auth.currentUser.updateProfile({displayName: pseudo}).then(async () => {
+
+      // POST request to create user
+      var headers = new Headers();
+      headers.append("Content-Type", "application/json");
+
+      let postOptions = {
+        method: 'POST',
+        headers: headers,
+        body: pseudo,
+      };
+
+      await fetch('http://' + ipAddress + ':8080/user/create', postOptions)
+        .then(response => {
+            if(response.status == 409){
+                {{<p>Pseudo non avaiable</p>}} // TODO : beautify text
+            }
+            else if(response.ok){
+                console.log("user registered")
+            }
+            // TODO : do not navigate if response is not ok
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+
+      auth.currentUser.updateProfile({
+        displayName: pseudo,
+        photoURL: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+      }).then(() => {
+        navigation.replace("Tabs")
+      });
+    })
   }
 
   return (
