@@ -23,9 +23,15 @@ const LoginScreen = () => {
             };
 
             await fetch('http://' + ipAddress + ':8080/user/create', postOptions)
-                .then(response => console.log("User registered"))
-                    // TODO : if response is 409 display that pseudo is non avaible
-                    // TODO : accept registering only if response is 200
+                .then(response => {
+                    if(response.status == 409){
+                        {{<p>Pseudo non avaiable</p>}} // TODO : beautify text
+                    }
+                    else if(response.ok){
+                        console.log("user registered")
+                    }
+                    // TODO : do not navigate if response is not ok
+                })
                 .catch((error) => {
                     console.error(error);
                 })
