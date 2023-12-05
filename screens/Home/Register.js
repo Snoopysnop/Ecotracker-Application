@@ -8,47 +8,6 @@ const LoginScreen = () => {
   const [pseudo, setPseudo] = useState('')
   const navigation = useNavigation()
 
-	const handleRegister = () => {
-
-        auth.currentUser.updateProfile({displayName: pseudo}).then(async () => {
-            // POST request to create user
-            var headers = new Headers();
-            headers.append("Content-Type", "application/json");
-
-            let postOptions = {
-                method: 'POST',
-                headers: headers,
-                body: pseudo,
-            };
-
-            await fetch('http://' + ipAddress + ':8080/user/create', postOptions)
-                .then(response => {
-                    if(response.status == 409){
-                        {{<p>Pseudo non avaiable</p>}} // TODO : beautify text
-                    }
-                    else if(response.ok){
-                        console.log("user registered")
-                    }
-                    // TODO : do not navigate if response is not ok
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
-
-      //Creation date au moment du login
-      const currentDate = new Date();
-      const day = currentDate.getDate();
-      const month = currentDate.getMonth() + 1;
-      const year = currentDate.getFullYear();
-      const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-
-      navigation.replace("Tabs",{
-        user: {
-          pseudo:auth.currentUser.displayName,
-          creationDate:auth.currentUser.creationDate=formattedDate,
-          profilePicture:"https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
-        },
-      })
 
   const handleRegister = () => {
     auth.currentUser.updateProfile({displayName: pseudo}).then(async () => {
@@ -84,7 +43,7 @@ const LoginScreen = () => {
     }).then(async () => {
       navigation.replace("Tabs")
     });
-  }
+  })
 
   return (
     <View
