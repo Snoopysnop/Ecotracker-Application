@@ -3,10 +3,26 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
+import { ipAddress } from '../../config';
 
 // TODO retrieve author information
 export default function Comment({ comment, reply, user, reload, setReload, parentCommentID }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
+  const [profilePicture, setProfilePicture] = React.useState("");
+
+  const fetchProfilePicture = () => {
+    // TODO update path + username + maybe not json ?
+    fetch('http://' + ipAddress + ':8080/' + user.pseudo + '/profilePicture')
+      .then(response => response.json())
+      .then(json => setProfilePicture(json))
+      .catch((error) => {
+        console.error(error);
+      })
+  }
+
+  React.useEffect(() => {
+    fetchProfilePicture();
+  }, [])
 
   return (
     <View style={{ paddingLeft: (reply ? 50 : 0), ...styles.commentContainer }}>
@@ -80,7 +96,7 @@ const styles = StyleSheet.create({
   commentContainer: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 15,
+    marginTop: 10,
     gap: 10,
   },
   avatar: {
@@ -107,7 +123,7 @@ const styles = StyleSheet.create({
   },
   replyAction: {
     color: 'grey',
-    marginTop: 5,
+    marginTop: 3,
     fontSize: 12,
     fontWeight: '500',
   },

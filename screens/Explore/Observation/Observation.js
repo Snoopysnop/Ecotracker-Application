@@ -8,6 +8,7 @@ import CustomTabView from './ObservationTabView';
 
 export default function Observation({ navigation, route }) {
     const observation = route.params?.observationData;
+    const [commentTab, setCommentTab] = React.useState(false);
 
     React.useEffect(() => {
         route.params?.navigationParent.setOptions({
@@ -24,8 +25,8 @@ export default function Observation({ navigation, route }) {
     return (
         <View style={{ height: '100%' }}>
             <View style={styles.view}>
-                <CustomImageCarousal data={observation.imageList} autoPlay={false} pagination={true} />
-                <CustomTabView observation={observation} route={route} />
+                {!commentTab && <CustomImageCarousal data={observation.imageList} autoPlay={false} pagination={true} />}
+                <CustomTabView observation={observation} route={route} setCommentTab={setCommentTab}/>
             </View>
         </View >
     );

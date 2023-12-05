@@ -22,6 +22,34 @@ export default function Account({ navigation, route }) {
             .catch(error => alert(error.message))
     }
 
+    const updateProfilePicture = (image) => {
+        var headers = new Headers();
+        headers.append("Content-Type", "multipart/form-data");
+
+        let localUri = image;
+        let filename = localUri.split('/').pop();
+
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        let formData = new FormData();
+        formData.append('image', { uri: localUri, name: filename, type });
+
+        let putOptions = {
+            method: 'PUT',
+            headers: headers,
+            body: formData,
+        };
+
+        // TODO update with correct path + username
+        fetch('http://' + ipAddress + ':8080/observation/' + user.pseudo + '/profilePicture', putOptions)
+            .then(res => {
+                console.log("profile picture updated");
+            }).catch(err => {
+                console.error(err.response);
+            });
+    }
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -31,7 +59,7 @@ export default function Account({ navigation, route }) {
         });
 
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            updateProfilePicture(result.assets[0].uri);
         }
     };
 

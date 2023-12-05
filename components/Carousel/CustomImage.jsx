@@ -12,7 +12,7 @@ const CustomImage = ({ item, index, size, spacer }) => {
     <View style={{ width: size }} key={index}>
       <Animated.View style={[styles.imageContainer]}>
         <Image
-          source={item}
+          source={{ uri: `data:image/png;base64,${item}` }}
           style={[styles.image, { aspectRatio: 1 }]}
         />
       </Animated.View>

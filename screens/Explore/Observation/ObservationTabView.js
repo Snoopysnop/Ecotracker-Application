@@ -9,7 +9,7 @@ import ViewMore from '../../../components/ViewMore';
 import CommentSection from '../../../components/CommentSection/CommentSection';
 import { ipAddress } from '../../../config';
 
-export default function CustomTabView({ observation, route }) {
+export default function CustomTabView({ observation, route, setCommentTab }) {
   const layout = useWindowDimensions();
 
   const [isLoading, setIsLoading] = React.useState(true);
@@ -121,7 +121,10 @@ export default function CustomTabView({ observation, route }) {
         map: SecondView,
         comment: ThirdView,
       })}
-      onIndexChange={setIndex}
+      onIndexChange={(index) => {
+        index==2?setCommentTab(true):setCommentTab(false);
+        setIndex(index);
+      }}
       initialLayout={{ width: layout.width }}
       renderTabBar={(props) => (
         <TabBar

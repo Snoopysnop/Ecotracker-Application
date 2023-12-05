@@ -68,13 +68,13 @@ export default function AddSighting({ navigation, route }) {
             let formData = new FormData();
             formData.append('image', { uri: localUri, name: filename, type });
 
-            let postOptions = {
+            let putOptions = {
                 method: 'PUT',
                 headers: headers,
                 body: formData,
             };
 
-            fetch('http://' + ipAddress + ':8080/observation/' + id + '/upload', postOptions)
+            fetch('http://' + ipAddress + ':8080/observation/' + id + '/upload', putOptions)
                 .then(res => {
                     console.log("images uploaded");
                 }).catch(err => {
