@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const user = {
     pseudo: '',
-    userName: '',
+    email: '',
     profilePicture: '',
     creationDate: '',
   }

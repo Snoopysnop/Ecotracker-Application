@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
-import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase'
 
 const LoginScreen = () => {
@@ -9,22 +9,11 @@ const LoginScreen = () => {
 
 
 	const handleRegister = () => {
-
-    auth.currentUser.updateProfile({displayName: pseudo}).then(() => {
-       //Creation date au moment du login
-      const currentDate = new Date();
-      const day = currentDate.getDate();
-      const month = currentDate.getMonth() + 1;
-      const year = currentDate.getFullYear();
-      const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-
-      navigation.replace("Tabs",{
-        user: {
-          pseudo:auth.currentUser.displayName,
-          creationDate:auth.currentUser.creationDate=formattedDate,
-          profilePicture:"https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
-        },
-      })
+    auth.currentUser.updateProfile({
+      displayName: pseudo,
+      photoURL:"https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+    }).then(() => {
+      navigation.replace("Tabs")
     });
   }
 
@@ -35,8 +24,6 @@ const LoginScreen = () => {
 	
 	  <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Rentre ton pseudo</Text>
-		<Text style={styles.headerText2}>Afin de draguer des femmes</Text>
-		<Text style={styles.headerText2}>en tout anonyma ! héhéhhé mathis à pas vu ces texte issous</Text>
       </View>
 	  
       <View style={styles.inputContainer}>

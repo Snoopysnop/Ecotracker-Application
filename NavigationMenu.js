@@ -6,7 +6,6 @@ import ListExploreNavigation from './screens/Explore/ListExplore/ListExploreNavi
 import MapExploreNavigation from './screens/Explore/MapExplore/MapExploreNavigation';
 import SigthingAdded from './screens/AddSighting/SightingAdded';
 import HomeNavigation from './screens/Home/HomeNavigation';
-import { useRoute } from '@react-navigation/native';
 
 
 const Tab = createBottomTabNavigator();
@@ -30,14 +29,7 @@ const CustomTabBarButton = ({ children, onPress }) => (
     </Pressable>
 );
 
-export default function Tabs({ route, navigation }) {
-
-
-
-    const { user } = route.params;
-
-
-
+export default function Tabs({ route }) {
 
     return (
         <Tab.Navigator
