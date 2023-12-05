@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../firebase'
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
@@ -25,11 +25,8 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
-        navigation.replace("Tabs", {
-          user: {pseudo:user.displayName,
-            creationDate:user.creationDate,
-          },
-        })
+        auth.currentUser.reload();
+        navigation.replace("Tabs")
       })
       .catch(error => alert(error.message))
   }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, ScrollView } from 'react-native';
-
+import { auth } from '../../firebase'
 import SearchBar from '../../components/SearchBar';
 import NavigationTitle from '../../components/NavigationTitle';
 import HomeTabView from './HomeTabView';
@@ -16,10 +16,10 @@ export default function Home({ navigation, route }) {
     const [myObservations, setMyObservations] = React.useState([]);
     const [myObservationsFiltered, setMyObservationsFiltered] = React.useState([]);
     const [firstTab, setFirstTab] = React.useState(true);
+    const user = auth.currentUser;
 
     const fetchMyCampaigns = () => {
-        console.log(route.params?.user);
-        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user + '/campaigns')
+        fetch('http://' + ipAddress + ':8080/user/' + user.displayName  + '/campaigns')
             .then(response => response.json())
             .then(json => {
                 setMyCampaigns(json);
@@ -33,7 +33,7 @@ export default function Home({ navigation, route }) {
     }
 
     const fetchMyObservations = () => {
-        fetch('http://' + ipAddress + ':8080/user/' + route.params?.user + '/observations')
+        fetch('http://' + ipAddress + ':8080/user/' + user.displayName + '/observations')
             .then((response) => response.json())
             .then((json) => {
                 setMyObservations(json);

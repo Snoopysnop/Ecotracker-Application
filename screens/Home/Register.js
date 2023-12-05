@@ -1,13 +1,12 @@
 import { useNavigation } from '@react-navigation/core'
-import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase'
 import { ipAddress } from '../../config';
 
 const LoginScreen = () => {
   const [pseudo, setPseudo] = useState('')
-	const navigation = useNavigation()
-
+  const navigation = useNavigation()
 
 	const handleRegister = () => {
 
@@ -50,22 +49,54 @@ const LoginScreen = () => {
           profilePicture:"https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
         },
       })
+
+  const handleRegister = () => {
+    auth.currentUser.updateProfile({displayName: pseudo}).then(async () => {
+
+    // POST request to create user
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+
+    let postOptions = {
+      method: 'POST',
+      headers: headers,
+      body: pseudo,
+    };
+
+    await fetch('http://' + ipAddress + ':8080/user/create', postOptions)
+      .then(response => {
+          if(response.status == 409){
+              {{<p>Pseudo non avaiable</p>}} // TODO : beautify text
+          }
+          else if(response.ok){
+              console.log("user registered")
+          }
+          // TODO : do not navigate if response is not ok
+      })
+      .catch((error) => {
+          console.error(error);
+      })
+
+
+    auth.currentUser.updateProfile({
+      displayName: pseudo,
+      photoURL: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+    }).then(async () => {
+      navigation.replace("Tabs")
     });
   }
 
-	return (
-		 <View
+  return (
+    <View
       style={styles.container}
     >
-	
-	  <View style={styles.headerContainer}>
+
+      <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Rentre ton pseudo</Text>
-		<Text style={styles.headerText2}>Afin de draguer des femmes</Text>
-		<Text style={styles.headerText2}>en tout anonyma ! héhéhhé mathis à pas vu ces texte issous</Text>
       </View>
-	  
+
       <View style={styles.inputContainer}>
-		
+
         <TextInput
           placeholder="Pseudo"
           value={pseudo}
@@ -99,7 +130,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '80%'
   },
-   headerContainer: {
+  headerContainer: {
     marginBottom: 20, // Ajout d'une marge en bas pour séparer du TextInput
   },
   headerText: {

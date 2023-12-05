@@ -1,39 +1,31 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native';
-
+import { auth } from '../../firebase'
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
 export default function CommentSection({ route, comments }) {
-    const user = route.params?.user;
+    const user = auth.currentUser;
 
     const noComments = (
         <View style={styles.view}>
-            {user ?
                 <CommentInput
                     reply={false}
-                    user={user}
-                /> :
-                <NotConnected />
-            }
+                /> 
             <Text style={styles.subtitle}>No comments yet, be the first!</Text>
         </View>
     )
 
     const commentSection = (
         <View>
-            {user ?
                 <CommentInput
                     reply={false}
-                    user={user}
-                /> :
-                <NotConnected />
-            }
+                />
             {
                 comments?.map((comment, indexComment) => (
                     <View key={"comment" + indexComment}>
-                        <Comment comment={comment} reply={false} user={user} />
+                        <Comment comment={comment} reply={false} user={user.displayName} />
                         {
                             comment.replies &&
                             <View>
@@ -42,7 +34,7 @@ export default function CommentSection({ route, comments }) {
                                         key={"comment" + indexComment + "reply" + indexReplies}
                                         comment={replies}
                                         reply={true}
-                                        user={user}
+                                        user={user.displayName}
                                     />
                                 ))}
                             </View>

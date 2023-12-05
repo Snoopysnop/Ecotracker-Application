@@ -11,12 +11,6 @@ const Stack = createNativeStackNavigator();
 
 
 export default function App() {
-  const user = {
-    pseudo: '',
-    userName: '',
-    profilePicture: '',
-    creationDate: '',
-  }
 
   SplashScreen.preventAutoHideAsync();
   setTimeout(SplashScreen.hideAsync, 2000);
@@ -26,7 +20,7 @@ export default function App() {
 
       <Stack.Navigator>
 		<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen}/>
-		<Stack.Screen options={{ headerShown: false }} name="Tabs" component={Tabs} initialParams={{user: user}}/>
+		<Stack.Screen options={{ headerShown: false }} name="Tabs" component={Tabs}/>
     <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
 	</Stack.Navigator>
     </NavigationContainer>

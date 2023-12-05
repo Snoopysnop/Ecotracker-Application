@@ -1,13 +1,14 @@
 import React from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { auth } from '../../firebase'
 
-export default function CommentInput({ parentID, user, reply, setReplyInputOpen }) {
+export default function CommentInput({ parentID, reply, setReplyInputOpen }) {
     const [comment, setComment] = React.useState("");
-
+    const user= auth.currentUser;
     const postComment = () => {
         // TODO implement post comment
         let newComment = {
-            author: user,
+            author: user.displayName,
             comment: comment,
             parentID: parentID,
         }
@@ -21,7 +22,7 @@ export default function CommentInput({ parentID, user, reply, setReplyInputOpen 
             }}
         >
             <Image
-                src={user.profilePicture}
+                src={user.photoURL}
                 style={styles.avatar}
             />
 

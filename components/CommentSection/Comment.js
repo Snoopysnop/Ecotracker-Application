@@ -2,10 +2,10 @@ import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import CommentInput from './CommentInput';
-import NotConnected from './NotConnected';
+
 
 // TODO retrieve author information
-export default function Comment({ comment, reply, user }) {
+export default function Comment({ comment, reply }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
 
   return (
@@ -25,14 +25,11 @@ export default function Comment({ comment, reply, user }) {
         <TouchableOpacity onPress={() => setReplyInputOpen(!replyInputOpen)}>
           <Text style={styles.replyAction}>Reply</Text>
         </TouchableOpacity>
-        {replyInputOpen && (user ?
+        {replyInputOpen && 
           <CommentInput
-            user={user}
             reply={true}
             setReplyInputOpen={setReplyInputOpen}
-            parentID={comment.id} /> :
-          <NotConnected />
-        )
+            parentID={comment.id} /> 
         }
       </View>
     </View>
