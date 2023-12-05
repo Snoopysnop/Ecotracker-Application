@@ -52,11 +52,13 @@ export default function Home({ navigation, route }) {
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Home"} />,
         });
+    }, [])
 
+    React.useEffect(() => {
         setIsLoading(true);
         fetchMyCampaigns();
         fetchMyObservations();
-    }, [])
+    }, [route])
 
     const homeView = (
         <View style={{

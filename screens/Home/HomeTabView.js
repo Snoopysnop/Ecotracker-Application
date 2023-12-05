@@ -49,7 +49,6 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
       labelStyle={{ color: '#000' }}
       renderLabel={({ route, focused }) => (
         <View>
-          {console.log(campaigns)}
           <Text style={{ color: '#2E9A99', textAlign: 'center', fontWeight: '600' }}>
             {route.title == 'Observations' ? (observations ? observations.length : 0) : (campaigns ? campaigns.length : 0)}
           </Text>

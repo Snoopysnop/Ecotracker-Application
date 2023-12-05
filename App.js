@@ -24,12 +24,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
-
       <Stack.Navigator>
-		<Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen}/>
-		<Stack.Screen options={{ headerShown: false }} name="Tabs" component={Tabs} initialParams={{user: user}}/>
-    <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-	</Stack.Navigator>
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Tabs" component={Tabs} initialParams={{ user: user }} />
+        <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

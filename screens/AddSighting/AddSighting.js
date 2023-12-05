@@ -55,20 +55,31 @@ export default function AddSighting({ navigation, route }) {
     }
 
     const uploadImages = (id) => {
+        var headers = new Headers();
+        headers.append("Content-Type", "multipart/form-data");
+
         images.forEach(image => {
-            const putOptions = {
+            let localUri = image;
+            let filename = localUri.split('/').pop();
+
+            let match = /\.(\w+)$/.exec(filename);
+            let type = match ? `image/${match[1]}` : `image`;
+
+            let formData = new FormData();
+            formData.append('image', { uri: localUri, name: filename, type });
+
+            let postOptions = {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    image: image
-                })
+                headers: headers,
+                body: formData,
             };
 
-            fetch('http://' + ipAddress + ':8080/observation/' + id + '/upload', putOptions)
-                .catch((error) => {
-                    console.error("failed to upload images.")
-                    console.error(error);
-                })
+            fetch('http://' + ipAddress + ':8080/observation/' + id + '/upload', postOptions)
+                .then(res => {
+                    console.log("images uploaded");
+                }).catch(err => {
+                    console.log("error response", err.response);
+                });
         });
     }
 
@@ -76,42 +87,38 @@ export default function AddSighting({ navigation, route }) {
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
 
-        const imagesName = images[0].split('/');
-        const imageName = imagesName[imagesName.length - 1];
+        const year = date.getFullYear();
+        const month = String(date.getMonth()).padStart(2, '0');
+        const day = String(date.getDay()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        let formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
 
-        var formdata = new FormData();
-        formdata.append("observationDTO",
-            "{\n    \"author_pseudo\": \"" + route.params?.user + "\",\n    \"campaign_id\": " + campaign.id + ",\n    \"taxonomyGroup\": \"" + category + "\",\n    \"title\": \"" + title + "\",\n    \"location\": {\n        \"longitude\": " + location.longitude + ",\n        \"latitude\": " + location.latitude + "\n    },\n    \"description\": \"" + description + "\"\n\n}");
-        formdata.append("image", imageName, images[0]);
+        const data = JSON.stringify({
+            "author": route.params?.user,
+            "campaign_id": campaign.id,
+            "taxonomyGroup": category,
+            "title": title,
+            "coordinates": {
+                "longitude": location.longitude,
+                "latitude": location.latitude
+            },
+            "description": description,
+            "creationDate": formattedDate
+        });
 
         let postOptions = {
             method: 'POST',
             headers: headers,
-            body: formdata,
-            redirect: 'follow'
+            body: data,
         };
-
-        // const postOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         observationDTO: {
-        //             author: route.params?.user.pseudo,
-        //             campaign_id: campaign.id,
-        //             taxonomyGroup: category,
-        //             title: title,
-        //             description: description,
-        //             location: location,
-        //             creationDate: date,
-        //         },
-        //         image: images[0]
-        //     })
-        // };
 
         fetch('http://' + ipAddress + ':8080/observation/create', postOptions)
             .then(response => response.json())
             .then(json => {
-                uploadImages(json.id);
+                console.log("observation created");
+                // uploadImages(json.id);
                 navigation.navigate('SigthingAdded', {
                     creation: true,
                     navigation: navigation,
@@ -119,10 +126,10 @@ export default function AddSighting({ navigation, route }) {
             })
             .catch((error) => {
                 console.error(error);
-                navigation.navigate('SigthingAdded', {
-                    creation: false,
-                    navigation: navigation,
-                });
+                // navigation.navigate('SigthingAdded', {
+                //     creation: false,
+                //     navigation: navigation,
+                // });
             })
     }
 
@@ -131,7 +138,7 @@ export default function AddSighting({ navigation, route }) {
             .then(response => response.json())
             .then(json => setCampaigns(json))
             .catch((error) => {
-                console.error(error);
+                // console.error(error);
             })
     }
 
