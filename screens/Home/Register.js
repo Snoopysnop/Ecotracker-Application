@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase'
+import { ipAddress } from '../../config';
 
 const LoginScreen = () => {
   const [pseudo, setPseudo] = useState('')
@@ -10,8 +11,26 @@ const LoginScreen = () => {
 
 	const handleRegister = () => {
 
-    auth.currentUser.updateProfile({displayName: pseudo}).then(() => {
-       //Creation date au moment du login
+        auth.currentUser.updateProfile({displayName: pseudo}).then(async () => {
+            // POST request to create user
+            var headers = new Headers();
+            headers.append("Content-Type", "application/json");
+
+            let postOptions = {
+                method: 'POST',
+                headers: headers,
+                body: pseudo,
+            };
+
+            await fetch('http://' + ipAddress + ':8080/user/create', postOptions)
+                .then(response => console.log("User registered"))
+                    // TODO : if response is 409 display that pseudo is non avaible
+                    // TODO : accept registering only if response is 200
+                .catch((error) => {
+                    console.error(error);
+                })
+
+      //Creation date au moment du login
       const currentDate = new Date();
       const day = currentDate.getDate();
       const month = currentDate.getMonth() + 1;
