@@ -1,18 +1,19 @@
 import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-
+import { ipAddress } from '../../config';
 import CommentInput from './CommentInput';
+import { auth } from '../../firebase';
 
 // TODO retrieve author information
 export default function Comment({ comment, reply, reload, setReload, parentCommentID }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
   const [profilePicture, setProfilePicture] = React.useState("");
+  const user = auth.currentUser;
 
   const fetchProfilePicture = () => {
-    // TODO update path + username + maybe not json ?
-    fetch('http://' + ipAddress + ':8080/' + user.pseudo + '/profilePicture')
+    fetch('http://' + ipAddress + ':8080/user/' + comment.author)
       .then(response => response.json())
-      .then(json => setProfilePicture(json))
+      .then(json => setProfilePicture(json.image))
       .catch((error) => {
         console.error(error);
       })
@@ -25,7 +26,7 @@ export default function Comment({ comment, reply, reload, setReload, parentComme
   return (
     <View style={{ paddingLeft: (reply ? 50 : 0), ...styles.commentContainer }}>
       <Image
-        src={comment.profilePicture}
+        source={{ uri: `data:image/png;base64,${profilePicture}`}}
         style={styles.avatar}
       />
       <View style={styles.content}>
