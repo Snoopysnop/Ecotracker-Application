@@ -50,7 +50,7 @@ export default function HomeTabView({ setFirstTab, campaigns, observations, navi
       renderLabel={({ route, focused }) => (
         <View>
           <Text style={{ color: '#2E9A99', textAlign: 'center', fontWeight: '600' }}>
-            {route.title == 'Observations' ? observations.length : campaigns.length}
+            {route.title == 'Observations' ? (observations ? observations.length : 0) : (campaigns ? campaigns.length : 0)}
           </Text>
           <Text style={{ color: (focused ? '#000' : '#ccc'), textAlign: 'center' }}>
             {route.title.toUpperCase()}

@@ -55,7 +55,10 @@ export default function Tabs({ route }) {
                 }
             })}
         >
+
             <Tab.Screen name='HomeNavigation' component={HomeNavigation} options={{
+                unmountOnBlur: true,
+
                 tabBarIcon: ({ focused }) => (
                     <View
                         style={{ alignItems: 'center', justifyContent: 'center' }}

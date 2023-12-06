@@ -45,8 +45,33 @@ export default function Account({ navigation }) {
         } catch (error) {
             console.error('Error updating profile picture in Firestore:', error);
         }
-    };
  
+        var headers = new Headers();
+        headers.append("Content-Type", "multipart/form-data");
+
+        let localUri = image;
+        let filename = localUri.split('/').pop();
+
+        let match = /\.(\w+)$/.exec(filename);
+        let type = match ? `image/${match[1]}` : `image`;
+
+        let formData = new FormData();
+        formData.append('image', { uri: localUri, name: filename, type });
+
+        let putOptions = {
+            method: 'PUT',
+            headers: headers,
+            body: formData,
+        };
+
+        // TODO update with correct path + username
+        fetch('http://' + ipAddress + ':8080/observation/' + user.pseudo + '/profilePicture', putOptions)
+            .then(res => {
+                console.log("profile picture updated");
+            }).catch(err => {
+                console.error(err.response);
+            });
+    }
 
     const pickImage = async () => {
         
@@ -113,11 +138,7 @@ export default function Account({ navigation }) {
                 </View>
 
                 <TouchableOpacity onPress={handleSignOut}>
-                    <Text style={{
-                        color: '#C93838',
-                        borderColor: '#C93838',
-                        ...styles.button
-                    }}
+                    <Text style={styles.button}
                     >Sign Out</Text>
                 </TouchableOpacity>
             </View>
@@ -164,7 +185,8 @@ const styles = StyleSheet.create({
         left: 25,
     },
     button: {
-
+        color: '#C93838',
+        borderColor: '#C93838',
         alignContent: 'flex-end',
         borderWidth: 2,
         borderRadius: 10,

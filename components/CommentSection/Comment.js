@@ -3,10 +3,24 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import CommentInput from './CommentInput';
 
-
 // TODO retrieve author information
-export default function Comment({ comment, reply }) {
+export default function Comment({ comment, reply, reload, setReload, parentCommentID }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
+  const [profilePicture, setProfilePicture] = React.useState("");
+
+  const fetchProfilePicture = () => {
+    // TODO update path + username + maybe not json ?
+    fetch('http://' + ipAddress + ':8080/' + user.pseudo + '/profilePicture')
+      .then(response => response.json())
+      .then(json => setProfilePicture(json))
+      .catch((error) => {
+        console.error(error);
+      })
+  }
+
+  React.useEffect(() => {
+    fetchProfilePicture();
+  }, [])
 
   return (
     <View style={{ paddingLeft: (reply ? 50 : 0), ...styles.commentContainer }}>
@@ -17,7 +31,7 @@ export default function Comment({ comment, reply }) {
       <View style={styles.content}>
         <View style={styles.nameAndDate}>
           <Text style={styles.author}>{comment.author}</Text>
-          <Text style={styles.date}> {timeAgo(new Date(comment.date).getTime())} </Text>
+          <Text style={styles.date}> {timeAgo(new Date(comment.creationDate).getTime())} </Text>
         </View>
         <View>
           <Text>{comment.content}</Text>
@@ -29,7 +43,10 @@ export default function Comment({ comment, reply }) {
           <CommentInput
             reply={true}
             setReplyInputOpen={setReplyInputOpen}
-            parentID={comment.id} /> 
+            parentCommentID={parentCommentID ? parentCommentID : comment.id}
+            reload={reload}
+            setReload={setReload}
+          />
         }
       </View>
     </View>
@@ -74,7 +91,7 @@ const styles = StyleSheet.create({
   commentContainer: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 15,
+    marginTop: 10,
     gap: 10,
   },
   avatar: {
@@ -101,7 +118,7 @@ const styles = StyleSheet.create({
   },
   replyAction: {
     color: 'grey',
-    marginTop: 5,
+    marginTop: 3,
     fontSize: 12,
     fontWeight: '500',
   },

@@ -1,16 +1,41 @@
 import React from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { auth } from '../../firebase'
+import { ipAddress } from '../../config';
 
-export default function CommentInput({ parentID, reply, setReplyInputOpen }) {
+
+export default function CommentInput({ parentCommentID, reply, setReplyInputOpen, reload, setReload, observationID }) {
     const [comment, setComment] = React.useState("");
-    const user= auth.currentUser;
+    const user = auth.currentUser;
     const postComment = () => {
-        // TODO implement post comment
-        let newComment = {
-            author: user.displayName,
-            comment: comment,
-            parentID: parentID,
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        var data = JSON.stringify({
+            "author": user.displayName,
+            "content": comment
+        });
+
+        let postOptions = {
+            method: 'POST',
+            headers: headers,
+            body: data,
+            redirect: 'follow'
+        };
+
+        if (reply) {
+            fetch('http://' + ipAddress + ':8080/observation/comment/' + parentCommentID + '/reply', postOptions)
+                .then(response => setReload(!reload))
+                .catch((error) => {
+                    console.error(error);
+                })
+        }
+        else {
+            fetch('http://' + ipAddress + ':8080/observation/' + observationID + '/comment', postOptions)
+                .then(response => setReload(!reload))
+                .catch((error) => {
+                    console.error(error);
+                })
         }
     }
 

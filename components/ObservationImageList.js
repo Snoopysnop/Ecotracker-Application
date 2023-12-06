@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
+
 export default function ObservationImageList({ navigation, observations, route }) {
+    
     return (
         <View style={{ flex: 1, backgroundColor: '#f6f6f6', width: '100%' }}>
             {observations?.map((observation, index) => {
@@ -18,7 +20,7 @@ export default function ObservationImageList({ navigation, observations, route }
                     >
                         <View style={[styles.centerElement, { width: 75 }]}>
                             <Image
-                                source={{ uri: observation.imageList[0] }}
+                                source={{ uri: `data:image/png;base64,${observation?.imageList[0]}`}}
                                 style={styles.image}
                             />
                         </View>

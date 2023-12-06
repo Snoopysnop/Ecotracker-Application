@@ -1,11 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Image, View, StyleSheet } from 'react-native';
 
 import MapView from 'react-native-maps';
 import { Marker, Circle } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 import NavigationTitle from '../../../components/NavigationTitle';
+import { icons } from '../../../components/IconFilter/IconList';
 
 import { ipAddress } from '../../../config';
 
@@ -81,7 +82,7 @@ export default function MapExplore({ navigation, route }) {
                         <View key={index}>
                             <Marker
                                 coordinate={{
-                                    latitude: campaign.area.coordinates.latitude,
+                                    latitude: campaign.area.coordinates.latitude - 0.0014,
                                     longitude: campaign.area.coordinates.longitude,
                                 }}
                                 title={campaign.title}
@@ -92,7 +93,13 @@ export default function MapExplore({ navigation, route }) {
                                     route: route,
                                     ID: campaign.id,
                                 })}
-                            />
+                                style={{ top: 17.5 }}
+                            >
+                                <Image
+                                    source={icons.find((icon) => icon.category == campaign.groupsToIdentify[0])?.filledImage}
+                                    style={styles.markerImage}
+                                />
+                            </Marker>
                             <Circle
                                 center={{
                                     latitude: campaign.area.coordinates.latitude,
@@ -110,3 +117,12 @@ export default function MapExplore({ navigation, route }) {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    markerImage: {
+        width: 35,
+        height: 35,
+        // tintColor: '#2E9A99',
+        // tintColor: '#C93838',
+    },
+})

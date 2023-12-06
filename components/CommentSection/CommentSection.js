@@ -8,11 +8,15 @@ import NotConnected from './NotConnected';
 export default function CommentSection({ route, comments }) {
     const user = auth.currentUser;
 
+
     const noComments = (
         <View style={styles.view}>
                 <CommentInput
                     reply={false}
-                /> 
+                    observationID={observationID}
+                    reload={reload}
+                    setReload={setReload}
+                />
             <Text style={styles.subtitle}>No comments yet, be the first!</Text>
         </View>
     )
@@ -21,11 +25,20 @@ export default function CommentSection({ route, comments }) {
         <View>
                 <CommentInput
                     reply={false}
+                    reload={reload}
+                    setReload={setReload}
+                    observationID={observationID}
                 />
             {
                 comments?.map((comment, indexComment) => (
                     <View key={"comment" + indexComment}>
-                        <Comment comment={comment} reply={false} user={user.displayName} />
+                        <Comment
+                            comment={comment}
+                            reply={false}
+                            reload={reload}
+                            setReload={setReload}
+                            observationID={observationID}
+                        />
                         {
                             comment.replies &&
                             <View>
@@ -34,7 +47,10 @@ export default function CommentSection({ route, comments }) {
                                         key={"comment" + indexComment + "reply" + indexReplies}
                                         comment={replies}
                                         reply={true}
-                                        user={user.displayName}
+                                        reload={reload}
+                                        setReload={setReload}
+                                        observationID={observationID}
+                                        parentCommentID={comment.id}
                                     />
                                 ))}
                             </View>

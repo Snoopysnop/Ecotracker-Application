@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 
 import NavigationTitle from '../../components/NavigationTitle';
 
-export default function SigthingAdded({ navigation, creation }) {
+export default function SigthingAdded({ navigation, route }) {
     React.useEffect(() => {
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Observation Creation"} />,
@@ -11,7 +11,7 @@ export default function SigthingAdded({ navigation, creation }) {
     }, [])
 
     return (
-        (creation ?
+        (route.params.creation ?
             <View style={styles.view}>
                 <Image style={styles.image} source={require('../../assets/icons/happy_bear.png')} />
                 <Text style={styles.title}>Congratulation!</Text>

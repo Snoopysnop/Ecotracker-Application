@@ -40,7 +40,6 @@ export default function Home({ navigation, route }) {
                 setMyObservationsFiltered(json);
             })
             .catch((error) => {
-                console.error(error);
                 setError(true);
             })
             .finally(() => setIsLoading(false));
