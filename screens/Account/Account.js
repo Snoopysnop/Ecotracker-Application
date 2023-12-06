@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { ipAddress } from '../../config';
 import * as ImagePicker from 'expo-image-picker';
 import { auth } from '../../firebase';
 import NavigationTitle from '../../components/NavigationTitle';
@@ -30,17 +30,17 @@ export default function Account({ navigation }) {
     const updateProfilePicture = async (newProfilePicture) => {
         try {
             const storage = getStorage();
-            const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
+            const storageRef = ref(storage, `profilePictures/${user.uid}`);
             const response = await fetch(newProfilePicture);
             const blob = await response.blob();
             await uploadBytes(storageRef, blob);
             const downloadURL = await getDownloadURL(storageRef);
     
-            await auth.currentUser.updateProfile({
+            await user.updateProfile({
             photoURL: downloadURL,
             });
             setImage(downloadURL);
-            await auth.currentUser.reload();
+            await user.reload();
             console.log('Profile picture updated successfully in Firestore');
         } catch (error) {
             console.error('Error updating profile picture in Firestore:', error);
@@ -49,7 +49,7 @@ export default function Account({ navigation }) {
         var headers = new Headers();
         headers.append("Content-Type", "multipart/form-data");
 
-        let localUri = image;
+        let localUri = newProfilePicture;
         let filename = localUri.split('/').pop();
 
         let match = /\.(\w+)$/.exec(filename);
@@ -58,14 +58,13 @@ export default function Account({ navigation }) {
         let formData = new FormData();
         formData.append('image', { uri: localUri, name: filename, type });
 
-        let putOptions = {
-            method: 'PUT',
+        let patchOptions = {
+            method: 'PATCH',
             headers: headers,
             body: formData,
         };
-
-        // TODO update with correct path + username
-        fetch('http://' + ipAddress + ':8080/observation/' + user.pseudo + '/profilePicture', putOptions)
+        
+        fetch('http://' + ipAddress + ':8080/user/' + user.displayName + '/upload', patchOptions)
             .then(res => {
                 console.log("profile picture updated");
             }).catch(err => {
@@ -77,17 +76,17 @@ export default function Account({ navigation }) {
         
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
+            allowsEditing: false,
             aspect: [1, 1],
             quality: 1,
         });
     
         if (!result.canceled) {
             setImage(result.assets[0].uri);
-            if (auth.currentUser) {
+            if (user) {
                 updateProfilePicture(result.assets[0].uri).then(()=>{
                     setImage(result.assets[0].uri);
-                    auth.currentUser.reload();
+                    user.reload();
                    
                 });
             } else {
@@ -104,7 +103,7 @@ export default function Account({ navigation }) {
             <TouchableOpacity onPress={pickImage}>
                 <View style={styles.profilePictureContainer}>
         <Image
-            source={{ uri: auth.currentUser.photoURL }}
+            source={{ uri: user.photoURL }}
             style={styles.profilePicture}
         />
                     <Image
@@ -132,7 +131,7 @@ export default function Account({ navigation }) {
                         <Text>Creation Date</Text>
 
                         <Text style={styles.info}>{
-                        new Date(auth.currentUser.metadata.creationTime).toLocaleDateString()
+                        new Date(user.metadata.creationTime).toLocaleDateString()
                         }</Text>
                     </View>
                 </View>
