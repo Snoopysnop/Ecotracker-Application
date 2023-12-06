@@ -1,33 +1,84 @@
 import { useNavigation } from '@react-navigation/core'
-import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase'
+import { ipAddress } from '../../config';
+import {Alert ,Image} from 'react-native';
 
-const LoginScreen = () => {
-    const [pseudo, setPseudo] = useState('')
-	const navigation = useNavigation()
+const LoginScreen = ({route}) => {
+  const [pseudo, setPseudo] = useState('')
+  const navigation = useNavigation()
 
 
-	const handleRegister = () => {
-    auth.currentUser.updateProfile({displayName: pseudo})
-    navigation.replace("Tabs")
+
+
+
+  const handleRegister = async () => {
+      // POST request to create user
+      var headers = new Headers();
+      headers.append("Content-Type", "application/json");
+
+      let postOptions = {
+        method: 'POST',
+        headers: headers,
+        body: pseudo,
+      };
+
+      await fetch('http://' + ipAddress + ':8080/user/create', postOptions)
+        .then(response => {
+            if(response.ok){
+                console.log("user registered",route)
+                auth
+                .createUserWithEmailAndPassword(route.params.email, route.params.password)
+                .then(userCredentials => {
+                    const user = userCredentials.user;
+                    console.log('Registered with:', user.email);
+                    auth.currentUser.updateProfile({
+                        displayName: pseudo,
+                        photoURL: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+                      }).then(() => {
+                        navigation.replace("Tabs")
+                      });
+                })
+                .catch(error => alert(error.message))
+                
+             }
+
+             else{
+                if(response.status == 409) {
+                    Alert.alert('Pseudo already taken','Please choose another');
+                }
+                else{
+                    Alert.alert('Error while registering','Please retry');
+                }
+                //Whatever stay in register screen
+                navigation.replace("Register",{email:route.params.email, password:route.params.password})
+             }
+        })
+        .catch((error) => {
+            console.error(error);
+        })
   }
-	
-	
-	
-	return (
-		 <View
+
+  return (
+    <View
       style={styles.container}
     >
-	
-	  <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Rentre ton pseudo</Text>
-		<Text style={styles.headerText2}>Afin de draguer des femmes</Text>
-		<Text style={styles.headerText2}>en tout anonyma !</Text>
+
+      <View style={styles.headerContainer}>
+      <Image source={require('../../assets/favicon.png')}
+      resizeMode='contain'
+      style={{
+        width: 200,
+        height: 200
+        ,
+    }}>
+      </Image>
+        <Text style={styles.headerText}>Enter a username</Text>
       </View>
-	  
+
       <View style={styles.inputContainer}>
-		
+
         <TextInput
           placeholder="Pseudo"
           value={pseudo}
@@ -61,7 +112,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: '80%'
   },
-   headerContainer: {
+  headerContainer: {
     marginBottom: 20, // Ajout d'une marge en bas pour séparer du TextInput
   },
   headerText: {

@@ -1,24 +1,21 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View,Alert,Image } from 'react-native'
 import { auth } from '../firebase'
+
 const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-
   const navigation = useNavigation()
 
-
   const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Registered with:', user.email);
-      })
-      .catch(error => alert(error.message))
-    navigation.replace("Register")
+    if(isValidEmail(email) && password.length ){
+      navigation.replace("Register",{email:email, password:password})
+    }
+    else {
+      Alert.alert('Email format or password invalid','Please enter a valid field');
+      navigation.replace("Login")
+    }
   }
 
 
@@ -28,24 +25,31 @@ const LoginScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Logged in with:', user.email);
-        navigation.replace("Tabs", {
-          user: user.displayName,
-        })
+        auth.currentUser.reload();
+        navigation.replace("Tabs")
       })
       .catch(error => alert(error.message))
-    // await new Promise (r=> setTimeout(r,500));
-    // console.log("User ", auth.currentUser)
-
   }
 
+
+  function isValidEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
 
   return (
     <View
       style={styles.container}
     >
-
+      <Image source={require('../assets/favicon.png')}
+      resizeMode='contain'
+      style={{
+        width: 200,
+        height: 200
+        ,
+    }}>
+      </Image>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Bienvenu sur EcoTracker</Text>
+        <Text style={styles.headerText}>Welcome on EcoTracker</Text>
       </View>
 
       <View style={styles.inputContainer}>

@@ -1,18 +1,18 @@
 import React from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
-
+import { auth } from '../../firebase'
 import { ipAddress } from '../../config';
 
 
-export default function CommentInput({ parentCommentID, user, reply, setReplyInputOpen, reload, setReload, observationID }) {
+export default function CommentInput({ parentCommentID, reply, setReplyInputOpen, reload, setReload, observationID }) {
     const [comment, setComment] = React.useState("");
-
+    const user = auth.currentUser;
     const postComment = () => {
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
 
         var data = JSON.stringify({
-            "author": user,
+            "author": user.displayName,
             "content": comment
         });
 
@@ -47,7 +47,7 @@ export default function CommentInput({ parentCommentID, user, reply, setReplyInp
             }}
         >
             <Image
-                src={user.profilePicture}
+                src={user.photoURL}
                 style={styles.avatar}
             />
 

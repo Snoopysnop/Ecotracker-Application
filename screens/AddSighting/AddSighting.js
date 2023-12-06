@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, Alert 
 import { useFocusEffect } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-
+import { auth } from '../../firebase'
 import DropdownSelect from '../../components/DropdownSelect';
 import ImagesPicker from '../../components/ImagesPicker/ImagesPicker';
 import ModalMap from './ModalMap';
@@ -96,7 +96,7 @@ export default function AddSighting({ navigation, route }) {
         let formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
 
         const data = JSON.stringify({
-            "author": route.params?.user,
+            "author": auth.currentUser.displayName,
             "campaign_id": campaign.id,
             "taxonomyGroup": category,
             "title": title,

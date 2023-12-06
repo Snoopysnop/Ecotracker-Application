@@ -1,48 +1,40 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native';
-
+import { auth } from '../../firebase'
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
-export default function CommentSection({ route, comments, reload, setReload, observationID }) {
-    const user = route.params?.user;
+export default function CommentSection({ route, comments }) {
+    const user = auth.currentUser;
+
 
     const noComments = (
         <View style={styles.view}>
-            {user ?
                 <CommentInput
                     reply={false}
-                    user={user}
                     observationID={observationID}
                     reload={reload}
                     setReload={setReload}
-                /> :
-                <NotConnected />
-            }
+                />
             <Text style={styles.subtitle}>No comments yet, be the first!</Text>
         </View>
     )
 
     const commentSection = (
         <View>
-            {user ?
                 <CommentInput
                     reply={false}
-                    user={user}
                     reload={reload}
                     setReload={setReload}
                     observationID={observationID}
-                /> :
-                <NotConnected />
-            }
+                />
             {
                 comments?.map((comment, indexComment) => (
                     <View key={"comment" + indexComment}>
                         <Comment
                             comment={comment}
                             reply={false}
-                            user={user}
                             reload={reload}
                             setReload={setReload}
                             observationID={observationID}
@@ -55,7 +47,6 @@ export default function CommentSection({ route, comments, reload, setReload, obs
                                         key={"comment" + indexComment + "reply" + indexReplies}
                                         comment={replies}
                                         reply={true}
-                                        user={user}
                                         reload={reload}
                                         setReload={setReload}
                                         observationID={observationID}

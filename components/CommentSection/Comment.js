@@ -2,11 +2,9 @@ import React from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import CommentInput from './CommentInput';
-import NotConnected from './NotConnected';
-import { ipAddress } from '../../config';
 
 // TODO retrieve author information
-export default function Comment({ comment, reply, user, reload, setReload, parentCommentID }) {
+export default function Comment({ comment, reply, reload, setReload, parentCommentID }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
   const [profilePicture, setProfilePicture] = React.useState("");
 
@@ -41,17 +39,14 @@ export default function Comment({ comment, reply, user, reload, setReload, paren
         <TouchableOpacity onPress={() => setReplyInputOpen(!replyInputOpen)}>
           <Text style={styles.replyAction}>Reply</Text>
         </TouchableOpacity>
-        {replyInputOpen && (user ?
+        {replyInputOpen && 
           <CommentInput
-            user={user}
             reply={true}
             setReplyInputOpen={setReplyInputOpen}
             parentCommentID={parentCommentID ? parentCommentID : comment.id}
             reload={reload}
             setReload={setReload}
-          /> :
-          <NotConnected />
-        )
+          />
         }
       </View>
     </View>

@@ -2,17 +2,21 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
-import { auth } from '../../firebase'
+import { auth } from '../../firebase';
 import NavigationTitle from '../../components/NavigationTitle';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL } from 'firebase/storage';
 
-export default function Account({ navigation, route }) {
-    const user = route.params?.user;
 
+export default function Account({ navigation }) {
+    const user = auth.currentUser;
+    const [image, setImage] = React.useState(null);
     React.useEffect(() => {
         navigation.setOptions({
             headerTitle: () => <NavigationTitle title={"Account"} />,
         });
     })
+
     const handleSignOut = () => {
         auth
             .signOut()
@@ -22,7 +26,26 @@ export default function Account({ navigation, route }) {
             .catch(error => alert(error.message))
     }
 
-    const updateProfilePicture = (image) => {
+    //firebase stuff
+    const updateProfilePicture = async (newProfilePicture) => {
+        try {
+            const storage = getStorage();
+            const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
+            const response = await fetch(newProfilePicture);
+            const blob = await response.blob();
+            await uploadBytes(storageRef, blob);
+            const downloadURL = await getDownloadURL(storageRef);
+    
+            await auth.currentUser.updateProfile({
+            photoURL: downloadURL,
+            });
+            setImage(downloadURL);
+            await auth.currentUser.reload();
+            console.log('Profile picture updated successfully in Firestore');
+        } catch (error) {
+            console.error('Error updating profile picture in Firestore:', error);
+        }
+ 
         var headers = new Headers();
         headers.append("Content-Type", "multipart/form-data");
 
@@ -51,15 +74,25 @@ export default function Account({ navigation, route }) {
     }
 
     const pickImage = async () => {
+        
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
         });
-
+    
         if (!result.canceled) {
-            updateProfilePicture(result.assets[0].uri);
+            setImage(result.assets[0].uri);
+            if (auth.currentUser) {
+                updateProfilePicture(result.assets[0].uri).then(()=>{
+                    setImage(result.assets[0].uri);
+                    auth.currentUser.reload();
+                   
+                });
+            } else {
+                console.error('User not authenticated');
+            }
         }
     };
 
@@ -70,10 +103,10 @@ export default function Account({ navigation, route }) {
         }}>
             <TouchableOpacity onPress={pickImage}>
                 <View style={styles.profilePictureContainer}>
-                    <Image
-                        // src={user.profilePicture}
-                        style={styles.profilePicture}
-                    />
+        <Image
+            source={{ uri: auth.currentUser.photoURL }}
+            style={styles.profilePicture}
+        />
                     <Image
                         style={styles.editIcon}
                         source={require("../../assets/icons/edit.png")}
@@ -85,19 +118,22 @@ export default function Account({ navigation, route }) {
                 <View style={styles.container}>
                     <View style={styles.textContainer}>
                         <Text>Pseudo</Text>
-                        <Text style={styles.info}>{auth.currentUser.displayName}</Text>
+                        <Text style={styles.info}>{user.displayName}</Text>
                     </View>
 
                     <View style={styles.textContainer}>
-                        <Text>Name</Text>
-                        <Text style={styles.info}>{user.userName}</Text>
+                        <Text>Email</Text>
+                        <Text style={styles.info}>{user.email}</Text>
                     </View>
                 </View>
 
                 <View style={styles.container}>
                     <View style={styles.textContainer}>
                         <Text>Creation Date</Text>
-                        <Text style={styles.info}>{new Date(user.creationDate).toLocaleDateString()}</Text>
+
+                        <Text style={styles.info}>{
+                        new Date(auth.currentUser.metadata.creationTime).toLocaleDateString()
+                        }</Text>
                     </View>
                 </View>
 

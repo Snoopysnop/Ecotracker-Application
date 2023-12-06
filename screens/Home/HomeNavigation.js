@@ -9,13 +9,12 @@ import Home from './Home';
 const Stack = createNativeStackNavigator();
 
 export default function HomeNavigation({ navigation, route }) {
-    const user = route.params?.user;
 
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} initialParams={{ navigationParent: navigation, user: user }} />
-            <Stack.Screen name="Observation" component={Observation} initialParams={{ observationData: {}, id: 0, navigationParent: navigation, user: user }} />
-            <Stack.Screen name="Campaign" component={Campaign} initialParams={{ navigationParent: navigation, user: user }} />
+            <Stack.Screen name="Home" component={Home} initialParams={{ navigationParent: navigation}} />
+            <Stack.Screen name="Observation" component={Observation} initialParams={{ observationData: {}, id: 0, navigationParent: navigation}} />
+            <Stack.Screen name="Campaign" component={Campaign} initialParams={{ navigationParent: navigation}} />
         </Stack.Navigator>
     );
 }
