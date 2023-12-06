@@ -3,15 +3,17 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { auth } from '../../firebase'
 import { ipAddress } from '../../config';
+import {Alert ,Image} from 'react-native';
 
-const LoginScreen = () => {
+const LoginScreen = ({route}) => {
   const [pseudo, setPseudo] = useState('')
   const navigation = useNavigation()
 
 
-  const handleRegister = () => {
-    auth.currentUser.updateProfile({displayName: pseudo}).then(async () => {
 
+
+
+  const handleRegister = async () => {
       // POST request to create user
       var headers = new Headers();
       headers.append("Content-Type", "application/json");
@@ -24,25 +26,38 @@ const LoginScreen = () => {
 
       await fetch('http://' + ipAddress + ':8080/user/create', postOptions)
         .then(response => {
-            if(response.status == 409){
-                {{<p>Pseudo non avaiable</p>}} // TODO : beautify text
-            }
-            else if(response.ok){
-                console.log("user registered")
-            }
-            // TODO : do not navigate if response is not ok
+            if(response.ok){
+                console.log("user registered",route)
+                auth
+                .createUserWithEmailAndPassword(route.params.email, route.params.password)
+                .then(userCredentials => {
+                    const user = userCredentials.user;
+                    console.log('Registered with:', user.email);
+                    auth.currentUser.updateProfile({
+                        displayName: pseudo,
+                        photoURL: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
+                      }).then(() => {
+                        navigation.replace("Tabs")
+                      });
+                })
+                .catch(error => alert(error.message))
+                
+             }
+
+             else{
+                if(response.status == 409) {
+                    Alert.alert('Pseudo already taken','Please choose another');
+                }
+                else{
+                    Alert.alert('Error while registering','Please retry');
+                }
+                //Whatever stay in register screen
+                navigation.replace("Register",{email:route.params.email, password:route.params.password})
+             }
         })
         .catch((error) => {
             console.error(error);
         })
-
-      auth.currentUser.updateProfile({
-        displayName: pseudo,
-        photoURL: "https://react.semantic-ui.com/images/avatar/small/jenny.jpg"
-      }).then(() => {
-        navigation.replace("Tabs")
-      });
-    })
   }
 
   return (
@@ -51,7 +66,15 @@ const LoginScreen = () => {
     >
 
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Rentre ton pseudo</Text>
+      <Image source={require('../../assets/favicon.png')}
+      resizeMode='contain'
+      style={{
+        width: 200,
+        height: 200
+        ,
+    }}>
+      </Image>
+        <Text style={styles.headerText}>Enter a username</Text>
       </View>
 
       <View style={styles.inputContainer}>
