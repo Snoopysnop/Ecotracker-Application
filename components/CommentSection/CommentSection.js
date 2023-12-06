@@ -5,7 +5,7 @@ import Comment from './Comment';
 import CommentInput from './CommentInput';
 import NotConnected from './NotConnected';
 
-export default function CommentSection({ route, comments }) {
+export default function CommentSection({ route, comments,observationID,reload,setReload }) {
     const user = auth.currentUser;
 
 
