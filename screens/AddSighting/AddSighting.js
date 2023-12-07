@@ -35,7 +35,7 @@ export default function AddSighting({ navigation, route }) {
     const showMode = (currentMode) => {
         DateTimePickerAndroid.open({
             value: date,
-            onChange: (e, date) => setDate(new Date(date)),
+            onChange: (e, date) => setDate(date),
             mode: currentMode,
             is24Hour: true,
             display: "spinner",
@@ -88,8 +88,8 @@ export default function AddSighting({ navigation, route }) {
         headers.append("Content-Type", "application/json");
 
         const year = date.getFullYear();
-        const month = String(date.getMonth()).padStart(2, '0');
-        const day = String(date.getDay()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         const seconds = String(date.getSeconds()).padStart(2, '0');
@@ -137,7 +137,7 @@ export default function AddSighting({ navigation, route }) {
             .then(response => response.json())
             .then(json => setCampaigns(json))
             .catch((error) => {
-                // console.error(error);
+                console.error(error);
             })
     }
 
@@ -150,12 +150,12 @@ export default function AddSighting({ navigation, route }) {
                 if (missingFields) Alert.alert('Missing Fields', 'Observation could not be created. Please make sure all fields are correctly filled.');
                 else {
                     postObservation();
-                    // reset();
+                    reset();
                 }
             });
 
             return unsubscribe;
-        }, [navigation, missingFields])
+        }, [navigation, missingFields, date])
     );
 
     React.useEffect(() => {
@@ -247,8 +247,6 @@ export default function AddSighting({ navigation, route }) {
                         >
                             <TextInput
                                 style={styles.input}
-                                placeholder='November 30, 2023'
-                                placeholderTextColor='#ccc'
                                 value={date.toLocaleDateString('en-us', { year: "numeric", month: "long", day: "2-digit" })}
                                 editable={false}
                                 color='#000'

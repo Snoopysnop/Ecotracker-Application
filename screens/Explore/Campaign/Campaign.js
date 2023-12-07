@@ -49,8 +49,8 @@ export default function Campaign({ navigation, route }) {
             <View style={{
                 gap: 20,
             }}>
-                {campaign.area && <CampaignMap area={campaign.area}/>}
-                
+                {campaign.area && <CampaignMap area={campaign.area} observations={observations} navigation={navigation} route={route} />}
+
                 <View>
                     <Text style={styles.title}>Description</Text>
                     <ViewMore description={campaign.description}></ViewMore>
@@ -63,7 +63,7 @@ export default function Campaign({ navigation, route }) {
                 </View>
 
                 <View>
-                    <Text style={{marginBottom:10, ...styles.title}}>Observations ({observations.length})</Text>
+                    <Text style={{ marginBottom: 10, ...styles.title }}>Observations ({observations.length})</Text>
                     <ObservationImageList observations={observations} navigation={navigation} route={route}></ObservationImageList>
                 </View>
             </View>

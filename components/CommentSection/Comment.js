@@ -4,10 +4,12 @@ import { ipAddress } from '../../config';
 import CommentInput from './CommentInput';
 import { auth } from '../../firebase';
 
-// TODO retrieve author information
+import ModalUser from './ModalUser';
+
 export default function Comment({ comment, reply, reload, setReload, parentCommentID }) {
   const [replyInputOpen, setReplyInputOpen] = React.useState(false);
   const [profilePicture, setProfilePicture] = React.useState("");
+  const [modalUserVisible, setModalUserVisible] = React.useState(false);
   const user = auth.currentUser;
 
   const fetchProfilePicture = () => {
@@ -25,10 +27,14 @@ export default function Comment({ comment, reply, reload, setReload, parentComme
 
   return (
     <View style={{ paddingLeft: (reply ? 50 : 0), ...styles.commentContainer }}>
-      <Image
-        source={{ uri: `data:image/png;base64,${profilePicture}`}}
-        style={styles.avatar}
-      />
+      <TouchableOpacity
+        onPress={() => setModalUserVisible(true)}
+      >
+        <Image
+          source={{ uri: `data:image/png;base64,${profilePicture}` }}
+          style={styles.avatar}
+        />
+      </TouchableOpacity>
       <View style={styles.content}>
         <View style={styles.nameAndDate}>
           <Text style={styles.author}>{comment.author}</Text>
@@ -40,7 +46,7 @@ export default function Comment({ comment, reply, reload, setReload, parentComme
         <TouchableOpacity onPress={() => setReplyInputOpen(!replyInputOpen)}>
           <Text style={styles.replyAction}>Reply</Text>
         </TouchableOpacity>
-        {replyInputOpen && 
+        {replyInputOpen &&
           <CommentInput
             reply={true}
             setReplyInputOpen={setReplyInputOpen}
@@ -50,6 +56,12 @@ export default function Comment({ comment, reply, reload, setReload, parentComme
           />
         }
       </View>
+      <ModalUser
+        modalUserVisible={modalUserVisible}
+        setModalUserVisible={setModalUserVisible}
+        profilePicture={profilePicture}
+        author={comment.author}
+      />
     </View>
   )
 }
