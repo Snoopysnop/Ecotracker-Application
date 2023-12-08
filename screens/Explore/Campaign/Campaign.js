@@ -59,7 +59,7 @@ export default function Campaign({ navigation, route }) {
                 <View>
                     <Text style={styles.title}>Details</Text>
                     <Text>Date: {startDate} - {endDate}</Text>
-                    <Text>Group: {campaign.groupsToIdentify}</Text>
+                    <Text>Group: {campaign.groupsToIdentify?.join(', ')}</Text>
                 </View>
 
                 <View>
